@@ -1,0 +1,29 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#3b2a23"><title>Hotel Ocaranza</title><link rel="stylesheet" href="/static/app.css"></head><body class=""><div id="app" class="guest-app"><div class="loading">Cargando información del hotel…</div></div>
+<script>
+(function(){
+  var source=(new URLSearchParams(window.location.search)).get('source')||'';
+  var app=document.getElementById('app');
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET','https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-public',true);
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4)return;
+    if(xhr.status<200||xhr.status>=300){app.innerHTML='<div class="error-state"><h1>Hotel Ocaranza</h1><p>No pudimos cargar la información ahora.</p><button onclick="location.reload()">Reintentar</button></div>';return;}
+    try{render(JSON.parse(xhr.responseText));}catch(e){app.innerHTML='<div class="error-state"><h1>Hotel Ocaranza</h1><p>Error de carga.</p></div>';}
+  };
+  xhr.send();
+  function h(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function track(type,tour){
+    var x=new XMLHttpRequest(); x.open('POST','https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-public',true); x.setRequestHeader('Content-Type','application/json');
+    x.send(JSON.stringify({event_type:type,source:source,path:location.pathname,tour_id:tour||null}));
+  }
+  function render(d){
+    track('visit'); if(source){track('qr_scan');}
+    var hotel=Array.isArray(d.hotel)?(d.hotel[0]||{}):(d.hotel||{}); var tours=d.tours||[]; var promos=d.promotions||[]; var sections=d.sections||[];
+    var menu=''; for(var i=0;i<sections.length;i++){menu+='<a class="menu-card" href="#'+h(sections[i].slug==='breakfast'?'hotel':sections[i].slug)+'"><span class="menu-icon">'+h(sections[i].icon)+'</span><span><strong>'+h(sections[i].title)+'</strong><small>'+h(sections[i].description)+'</small></span></a>';}
+    var tourCards=''; for(i=0;i<tours.length;i++){var t=tours[i]; tourCards+='<article class="tour-card" id="tour-'+h(t.slug)+'">'+(t.image_url?'<img src="'+h(t.image_url)+'" alt="">':'<div class="tour-image-placeholder">'+h(t.name)+'</div>')+'<div class="tour-copy">'+(t.featured?' <span class="badge">Destacado</span>':'')+'<h3>'+h(t.name)+'</h3><p>'+h(t.short_description||t.description)+'</p><div class="tour-meta"><span>'+h(t.duration)+'</span><span>'+h(t.schedule)+'</span></div><div class="price-line"><span class="guest-price">'+h(t.guest_price||t.normal_price)+'</span>'+(t.discount?'<span class="discount">'+h(t.discount)+'</span>':'')+'</div><a class="primary-btn" href="/guest-tour.html?slug='+encodeURIComponent(t.slug)+'&source='+encodeURIComponent(source)+'">Ver experiencia</a></div></article>';}
+    var promoHtml=''; for(i=0;i<promos.length;i++){var p=promos[i]; promoHtml+='<article class="promo-card">'+(p.image_url?'<img src="'+h(p.image_url)+'" alt="">':'')+'<div><h3>'+h(p.title)+'</h3><p>'+h(p.text)+'</p>'+(p.cta_text?'<a class="text-btn" href="'+h(p.cta_url||'#tours')+'">'+h(p.cta_text)+'</a>':'')+'</div></article>';}
+    app.innerHTML='<header class="hero">'+(hotel.hero_image_url?'<div class="hero-photo" style="background-image:url(\''+h(hotel.hero_image_url).replace(/'/g,"%27")+'\')"></div>':'')+'<div class="hero-overlay"><div class="eyebrow">'+h(hotel.name)+'</div><h1>'+h(hotel.subtitle)+'</h1><p>'+h(hotel.welcome_text)+'</p><div class="hero-actions"><a class="primary-btn" href="#tours">Descubrir tours</a><a class="ghost-btn" href="#hotel">Información del hotel</a></div></div></header>'+ (promos?'<section class="content-section promo-section">'+promoHtml+'</section>':'') +'<main class="content"><section class="content-section"><div class="section-heading"><span>Tu estadía</span><h2>¿Qué necesitas?</h2></div><div class="menu-grid">'+menu+'</div></section><section id="hotel" class="content-section"><div class="section-heading"><span>Hotel</span><h2>Información útil</h2></div><div class="info-grid"><div><strong>Desayuno</strong><p>'+h(hotel.breakfast_hours)+'</p><small>'+h(hotel.breakfast_description)+'</small></div><div><strong>Check-in</strong><p>'+h(hotel.checkin)+'</p></div><div><strong>Check-out</strong><p>'+h(hotel.checkout)+'</p></div><div><strong>Dirección</strong><p>'+h(hotel.address)+'</p></div><div><strong>Wi-Fi</strong><p>'+h(hotel.wifi_name)+'</p><small>'+h(hotel.wifi_password?'Clave disponible en recepción':'')+'</small></div></div></section><section id="tours" class="content-section"><div class="section-heading"><span>Experiencias</span><h2>Tours para huéspedes</h2><p>Consulta disponibilidad, beneficios y reserva en recepción.</p></div><div class="tour-grid">'+tourCards+'</div></section><section id="services" class="content-section"><div class="section-heading"><span>Ayuda</span><h2>Servicios</h2></div><div class="text-panel">'+sectionText(sections,'services')+'</div></section><section id="santiago" class="content-section"><div class="section-heading"><span>Alrededores</span><h2>Santiago</h2></div><div class="text-panel">'+sectionText(sections,'santiago')+'</div></section></main><footer class="footer"><strong>'+h(hotel.name)+'</strong><span>'+h(hotel.phone)+'</span><span>'+h(hotel.address)+'</span></footer>';
+  }
+  function sectionText(arr,slug){for(var i=0;i<arr.length;i++){if(arr[i].slug===slug)return '<p>'+h(arr[i].content)+'</p>';};return '<p>Información disponible en recepción.</p>';}
+}());
+</script></body></html>
