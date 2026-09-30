@@ -174,7 +174,13 @@
         var o=orders[i];
         rows+='<div class="guest-order"><div><strong>'+h(o.item_name)+'</strong><small>'+h(o.status)+' · '+h(o.created_at||'')+'</small></div><b>$'+Number(o.total||0).toLocaleString('es-CL')+'</b></div>';
       }
-      state.innerHTML='<span class="eyebrow dark">HUÉSPED</span><h1>Hola, '+h(data.profile.display_name||data.profile.username)+'</h1><div class="guest-account-top"><div><span>Habitación</span><strong>'+h(data.profile.room_number)+'</strong></div><div><span>Cuenta</span><strong>$'+Number(data.balance||0).toLocaleString('es-CL')+'</strong></div></div><section class="guest-orders"><div class="section-head"><h2>Mis pedidos</h2><button id="guest-logout" type="button">Cerrar sesión</button></div>'+(rows||'<div class="module-note">Todavía no tienes pedidos.</div>')+'</section>';
+      state.innerHTML='<span class="eyebrow dark">HUÉSPED</span><h1>Hola, '+h(data.profile.display_name||data.profile.username)+'</h1><div class="guest-account-top"><div><span>Habitación</span><strong>'+h(data.profile.room_number)+'</strong></div><div><span>Cuenta</span><strong><div class="section-head"><h2>Mis pedidos</h2><button id="guest-logout" type="button">Cerrar sesión</button></div>'+(rows||'<div class="module-note">Todavía no tienes pedidos.</div>')+'</section>';
+      var logout=document.getElementById('guest-logout');if(logout)logout.addEventListener('click',function(){try{localStorage.removeItem('oc_guest_token')}catch(e){};go('home');});
+    });
+  }
+}());
+</script>
+</body></html>+Number(data.balance||0).toLocaleString('es-CL')+'</strong></div><div><span>Beneficio</span><strong>'+Number(data.profile.discount_percent||10)+'% OFF</strong></div></div><section class="guest-orders"><div class="section-head"><h2>Mis pedidos</h2><button id="guest-logout" type="button">Cerrar sesión</button></div>'+(rows||'<div class="module-note">Todavía no tienes pedidos.</div>')+'</section>';
       var logout=document.getElementById('guest-logout');if(logout)logout.addEventListener('click',function(){try{localStorage.removeItem('oc_guest_token')}catch(e){};go('home');});
     });
   }
