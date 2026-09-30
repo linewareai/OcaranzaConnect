@@ -58,7 +58,7 @@ function load(){
  if(!token()){login();return}
  app.innerHTML='<div class="shell"><header class="top"><div class="brand"><span class="logo-h">H</span><div class="brand-copy"><small>Hotel</small><strong>OcaranzaConnect</strong></div></div><div class="actions"><button class="btn light" id="refresh-all">Actualizar</button><button class="btn" id="logout">Salir</button></div></header><nav class="nav" id="top-nav">'+
  [['dashboard','Inicio'],['calendar','Calendario'],['reservations','Reservas'],['rooms','Habitaciones'],['guests','Huéspedes'],['operations','Operación'],['orders','Pedidos'],['finance','Caja'],['reports','Reportes'],['settings','Config.']].map(function(n){return '<button data-tab="'+n[0]+'">'+n[1]+'</button>'}).join('')+
- '</nav><main id="views"><div class="admin-loading"><div class="admin-loading-box"><div class="admin-spinner"></div><strong>Cargando Centro PMS</strong><p class="muted">Conectando con los datos de OcaranzaConnect…</p></div></div></main></div>'+
+ '</nav><main><div id="admin-load-error"></div><div id="views"><div class="admin-loading"><div class="admin-loading-box"><div class="admin-spinner"></div><strong>Cargando Centro PMS</strong><p class="muted">Conectando con los datos de OcaranzaConnect…</p></div></div></main></div>'+
  '<nav class="admin-mobile-nav" id="mobile-nav">'+
  [['dashboard','⌂','Inicio'],['calendar','▦','Calendario'],['rooms','▤','Habitaciones'],['guests','♙','Huéspedes'],['more','⋯','Más']].map(function(n){return '<button data-mobile-tab="'+n[0]+'" class="'+(n[0]==='more'?'more':'')+'"><span>'+n[1]+'</span>'+n[2]+'</button>'}).join('')+
  '</nav><div class="admin-more" id="admin-more">'+
