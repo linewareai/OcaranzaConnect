@@ -32,7 +32,7 @@ function render(d){
  root.innerHTML=
  '<div class="tv-screen">'+
    '<div class="tv-hero-image" style="background-image:url(\''+h(hero).replace(/'/g,"%27")+'\')"></div><div class="tv-hero-shade"></div>'+
-   '<header class="tv-header"><div class="tv-brand-mark"><div class="h">H</div><div class="name">OCARANZA</div></div><div class="tv-header-right"><span class="lang">🇨🇱 ES</span><span class="clock" id="tv-clock"></span></div></header>'+
+   '<header class="tv-header"><div class="oc-logo oc-logo-tv"><span class="oc-logo-h">H</span><span class="oc-logo-word">GARANZA</span></div><div class="tv-header-right"><span class="lang">🇨🇱 ES</span><span class="clock" id="tv-clock"></span></div></header>'+
    '<main class="tv-content"><div class="tv-hero-copy"><span class="kicker">BIENVENIDO/A</span><h1>Disfruta tu estadía<br><em>en Hotel Ocaranza</em></h1><p>'+h(hotel.welcome_text||'Encuentra toda la información que necesitas para disfrutar Santiago.')+'</p></div><div class="tv-quick">'+cards+'</div></main>'+
    '<footer class="tv-footer"><span>Desayuno '+h(hotel.breakfast_hours||'07:30 AM – 10:00 AM')+'</span>'+tourStrip+'<span>'+h(hotel.address||'Santiago, Chile')+'</span></footer>'+
  '</div>';
