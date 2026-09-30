@@ -56,13 +56,16 @@
   }
   function nav(current){
     var items=[
-      ['hotel','Hotel','hotel'],['breakfast','Desayuno','cup'],['tours','Tours','pin'],
-      ['services','Servicios','bell'],['santiago','Santiago','city'],['contact','Contacto','help']
+      ['breakfast','Desayuno','cup'],
+      ['hotel','Hotel','hotel'],
+      ['home','Inicio','city'],
+      ['services','Servicios','bell'],
+      ['tours','Tours','pin']
     ];
-    var out='<nav class="app-nav">';
+    var out='<nav class="app-nav app-nav-five">';
     for(var i=0;i<items.length;i++){
-      var it=items[i],active=current===it[0]?' is-active':'';
-      out+='<button class="app-nav-item'+active+'" data-view="'+it[0]+'"><span>'+icon(it[2])+'</span><small>'+it[1]+'</small></button>';
+      var it=items[i],active=current===it[0]?' is-active':'',home=it[0]==='home'?' is-home':'';
+      out+='<button class="app-nav-item'+active+home+'" data-view="'+it[0]+'"><span>'+icon(it[2])+'</span><small>'+it[1]+'</small></button>';
     }
     return out+'</nav>';
   }
@@ -83,13 +86,11 @@
     var html=header(hotel,view);
 
     if(view==='home'){
-      html+='<main class="app-home"><section class="app-welcome"><div class="app-welcome-photo" style="background-image:url(\'/static/images/fondo1.jpg\')"></div><div class="app-welcome-shade"></div><div class="app-welcome-content"><span class="eyebrow">BIENVENIDO/A</span><h1>¿Qué necesitas<br><em>durante tu estadía?</em></h1><p>Todo Ocaranza, en seis accesos rápidos.</p></div></section><section class="module-section"><div class="module-grid">'+
-      card('hotel','hotel','Información del hotel','Habitaciones, horarios y datos útiles')+
+      html+='<main class="app-home"><section class="app-welcome"><div class="app-welcome-photo" style="background-image:url(\'/static/images/fondo1.jpg\')"></div><div class="app-welcome-shade"></div><div class="app-welcome-content"><span class="eyebrow">BIENVENIDO/A</span><h1>¿Qué necesitas<br><em>durante tu estadía?</em></h1><p>Tu estadía, en cuatro accesos rápidos.</p></div></section><section class="module-section"><div class="module-grid">'+
       card('breakfast','cup','Desayuno','Horarios y detalles del servicio')+
-      card('tours','pin','Tours y experiencias','Descubre Santiago y sus alrededores')+
+      card('hotel','hotel','Información del hotel','Habitaciones, horarios y datos útiles')+
       card('services','bell','Servicios y pedidos','Solicita ayuda o consulta productos')+
-      card('contact','help','Contacto','Habla con recepción')+
-      card('santiago','city','Santiago','Qué hacer y qué visitar')+
+      card('tours','pin','Tours y experiencias','Descubre Santiago y sus alrededores')+
       '</div></section></main>';
     }else if(view==='hotel'){
       html+='<main class="app-module"><span class="eyebrow dark">HOTEL</span><h1>Información útil</h1><p class="module-lead">'+h(hotel.welcome_text||'Todo lo que necesitas saber para disfrutar tu estadía.')+'</p><div class="detail-grid">'+
