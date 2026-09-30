@@ -71,9 +71,15 @@
     return out+'</nav>';
   }
   function header(hotel,current){
-    return '<header class="app-header"><button class="app-brand" data-view="home" aria-label="Inicio"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span></button><span class="app-header-title">'+h(current==='home'?'Tu estadía':label(current))+'</span></header>';
+    return '<header class="app-header"><button class="app-brand" data-view="home" aria-label="Inicio"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span></button><span class="app-header-title">'+h(current==='home'?'Tu estadía':label(current))+'</span><button class="account-chip" data-view="account">Mi cuenta</button></header>';
   }
-  function label(v){return ({hotel:'Hotel',breakfast:'Desayuno',tours:'Tours',services:'Servicios y pedidos',contact:'Contacto'})[v]||'Tu estadía';}
+  function label(v){return ({home:'Inicio',hotel:'Hotel',breakfast:'Desayuno',tours:'Tours',services:'Servicios y pedidos',contact:'Contacto',account:'Mi cuenta'})[v]||'Tu estadía';}
+  function getGuestToken(){try{return localStorage.getItem('oc_guest_token')||'';}catch(e){return '';}}
+  function guestRequest(path,body,token,done){
+    var x=new XMLHttpRequest();x.open('POST','https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-auth/'+path,true);
+    x.setRequestHeader('Content-Type','application/json');if(token)x.setRequestHeader('Authorization','Bearer '+token);
+    x.onreadystatechange=function(){if(x.readyState!==4)return;var data={};try{data=JSON.parse(x.responseText||'{}')}catch(e){}done(x.status,data);};x.send(JSON.stringify(body||{}));
+  }
   function card(v,kind,title,desc){
     return '<button class="app-module-card" data-view="'+v+'"><span class="module-icon">'+icon(kind)+'</span><span class="module-copy"><strong>'+title+'</strong><small>'+desc+'</small></span><span class="module-arrow">›</span></button>';
   }
@@ -113,6 +119,13 @@
       '</div>'+(services?'<div class="module-note">'+h(services.content)+'</div>':'')+'</main>';
     }else if(view==='santiago'){
       html+='<main class="app-module"><span class="eyebrow dark">ALREDEDORES</span><h1>Santiago</h1><div class="text-panel app-text">'+h(santiago?santiago.content:'Descubre Santiago desde Hotel Ocaranza.')+'</div><button class="wide-action" data-view="tours">Ver experiencias ↗</button></main>';
+    }else if(view==='account'){
+      var token=getGuestToken();
+      if(!token){
+        html+='<main class="app-module account-module"><span class="eyebrow dark">HUÉSPED</span><h1>Mi cuenta</h1><p class="module-lead">Ingresa con el usuario y la clave que te entregó recepción.</p><form id="guest-login-form" class="account-form"><label>Usuario<input name="username" autocomplete="username" required minlength="3" placeholder="Ej. habitacion204"></label><label>Clave<input name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="Tu clave"></label><button type="submit" class="contact-main">Ingresar</button><p id="guest-login-error" class="form-error" hidden></p></form></main>';
+      }else{
+        html+='<main class="app-module account-module"><div id="guest-account-state"><span class="eyebrow dark">HUÉSPED</span><h1>Mi cuenta</h1><p class="module-lead">Cargando tu cuenta...</p></div></main>';
+      }
     }else{
       var whatsapp=(hotel.whatsapp||'').replace(/[^0-9]/g,'');
       var wa=whatsapp?'https://wa.me/'+whatsapp+'?text='+encodeURIComponent('Hola, soy huésped de '+hotel.name+'. Quisiera consultar por un servicio.'):'#';
@@ -125,6 +138,38 @@
   function bind(){
     var els=document.querySelectorAll('[data-view]');
     for(var i=0;i<els.length;i++)els[i].addEventListener('click',function(){go(this.getAttribute('data-view'));});
+    var form=document.getElementById('guest-login-form');
+    if(form)form.addEventListener('submit',function(ev){
+      ev.preventDefault();
+      var btn=form.querySelector('button[type="submit"]'),err=document.getElementById('guest-login-error');
+      btn.disabled=true;btn.textContent='Ingresando...';if(err)err.hidden=true;
+      guestRequest('guest-login',{username:form.username.value,password:form.password.value},'',function(status,data){
+        if(status>=200&&status<300&&data.session){
+          try{localStorage.setItem('oc_guest_token',data.session.access_token);}catch(e){}
+          render(window.__ocar_data);
+          return;
+        }
+        btn.disabled=false;btn.textContent='Ingresar';if(err){err.textContent=data.error||'No pudimos iniciar sesión.';err.hidden=false;}
+      });
+    });
+    if(view==='account'&&getGuestToken())loadGuestAccount();
+  }
+  function loadGuestAccount(){
+    var state=document.getElementById('guest-account-state'),token=getGuestToken();if(!state||!token)return;
+    guestRequest('guest-me',{},token,function(status,data){
+      if(status===401||status===403){try{localStorage.removeItem('oc_guest_token')}catch(e){};render(window.__ocar_data);return;}
+      if(status<200||status>=300){state.innerHTML='<span class="eyebrow dark">HUÉSPED</span><h1>Mi cuenta</h1><p class="module-lead">No pudimos cargar tu cuenta.</p>';return;}
+      var orders=data.orders||[],rows='';
+      for(var i=0;i<orders.length;i++){var o=orders[i];rows+='<div class="guest-order"><div><strong>'+h(o.item_name)+'</strong><small>'+h(o.status)+' · '+h(o.created_at||'')+'</small></div><b>
+}());
+</script>
+</body></html>+Number(o.total||0).toLocaleString('es-CL')+'</b></div>';}
+      state.innerHTML='<span class="eyebrow dark">HUÉSPED</span><h1>Hola, '+h(data.profile.display_name||data.profile.username)+'</h1><div class="guest-account-top"><div><span>Habitación</span><strong>'+h(data.profile.room_number)+'</strong></div><div><span>Cuenta</span><strong>
+}());
+</script>
+</body></html>+Number(data.balance||0).toLocaleString('es-CL')+'</strong></div></div><section class="guest-orders"><div class="section-head"><h2>Mis pedidos</h2><button id="guest-logout" type="button">Cerrar sesión</button></div>'+(rows||'<div class="module-note">Todavía no tienes pedidos.</div>')+'</section>';
+      var logout=document.getElementById('guest-logout');if(logout)logout.addEventListener('click',function(){try{localStorage.removeItem('oc_guest_token')}catch(e){};go('home');});
+    });
   }
 }());
 </script>
