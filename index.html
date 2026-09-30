@@ -13,6 +13,7 @@
 (function(){
   var params=new URLSearchParams(window.location.search);
   var source=params.get('source')||'';
+  var access=params.get('access')||'';
   var view=params.get('view')||'home';
   var app=document.getElementById('app');
   var xhr=new XMLHttpRequest();
@@ -41,13 +42,13 @@
     x.send(JSON.stringify({event_type:type,source:source,path:location.pathname+location.search,tour_id:tour||null}));
   }
   function go(v){
-    var url='/?view='+encodeURIComponent(v)+(source?'&source='+encodeURIComponent(source):'');
+    var url='/?view='+encodeURIComponent(v)+(source?'&source='+encodeURIComponent(source):'')+(access?'&access='+encodeURIComponent(access):'');
     history.pushState({view:v},'',url);
     view=v;
     window.scrollTo(0,0);
     render(window.__ocar_data);
   }
-  window.onpopstate=function(){params=new URLSearchParams(window.location.search);view=params.get('view')||'home';render(window.__ocar_data);};
+  window.onpopstate=function(){params=new URLSearchParams(window.location.search);source=params.get('source')||'';access=params.get('access')||'';view=params.get('view')||'home';render(window.__ocar_data);};
 
   function icon(kind){
     var s='<svg viewBox="0 0 48 48" aria-hidden="true">';
@@ -96,6 +97,10 @@
     var section=function(slug){for(var i=0;i<sections.length;i++)if(sections[i].slug===slug)return sections[i];return null;};
     var services=section('services'),santiago=section('santiago');
     var html=header(hotel,view);
+
+    if(view==='home' && !getGuestToken() && access!=='guest'){
+      html+='<section class="access-choice-overlay" aria-labelledby="access-choice-title"><div class="access-choice-card"><span class="access-choice-kicker">HOTEL OCARANZA</span><span class="oc-logo oc-logo-choice"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span><h2 id="access-choice-title">¿Cómo deseas continuar?</h2><p class="access-choice-lead">Elige la experiencia que prefieras para tu estadía.</p><div class="access-choice-options"><a class="access-choice-option" href="/?view=home&access=guest"><span class="access-choice-icon">'+icon('home')+'</span><span><strong>Continuar como invitado</strong><small>Explora el hotel y sus servicios.</small></span><b>›</b></a><a class="access-choice-option access-choice-guest" href="/?view=account"><span class="access-choice-icon">'+icon('hotel')+'</span><span><strong>Continuar como huésped</strong><small><em>Obtén un 10% de descuento</em> y accede a tu cuenta.</small></span><b>›</b></a></div><small class="access-choice-note">Como huésped podrás tener tu cuenta asociada a una habitación y consultar tus pedidos.</small></div></section>';
+    }
 
     if(view==='home'){
       html+='<main class="app-home"><section class="app-welcome"><div class="app-welcome-photo" style="background-image:url(\'/static/images/fondo1.jpg\')"></div><div class="app-welcome-shade"></div><div class="app-welcome-content"><span class="eyebrow">BIENVENIDO/A</span><h1>¿Qué necesitas<br><em>durante tu estadía?</em></h1><p>Tu estadía, en cuatro accesos rápidos.</p></div></section><section class="module-section"><div class="module-grid">'+
