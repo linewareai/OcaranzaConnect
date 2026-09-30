@@ -51,6 +51,7 @@
     else if(kind==='pin')s+='<path d="M24 43s13-11 13-23a13 13 0 1 0-26 0c0 12 13 23 13 23z"/><circle cx="24" cy="20" r="4"/>';
     else if(kind==='bell')s+='<path d="M12 35h24M15 35V22a9 9 0 0 1 18 0v13M18 41h12M24 11V7"/>';
     else if(kind==='city')s+='<path d="M8 40V21h10v19M18 40V10h12v30M30 40V17h10v23M5 40h38"/>';
+    else if(kind==='home')s+='<rect x="9" y="9" width="11" height="11" rx="2"/><rect x="28" y="9" width="11" height="11" rx="2"/><rect x="9" y="28" width="11" height="11" rx="2"/><rect x="28" y="28" width="11" height="11" rx="2"/>';
     else s+='<circle cx="24" cy="24" r="17"/><path d="M16 20a8 8 0 0 1 16 0c0 7-8 6-8 12M24 36h.01"/>';
     return s+'</svg>';
   }
@@ -58,7 +59,7 @@
     var items=[
       ['breakfast','Desayuno','cup'],
       ['hotel','Hotel','hotel'],
-      ['home','Inicio','city'],
+      ['home','Inicio','home'],
       ['services','Servicios','bell'],
       ['tours','Tours','pin']
     ];
