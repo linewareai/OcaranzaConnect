@@ -613,6 +613,36 @@
     animation:none!important;opacity:1;transform:none;
   }
 }
+
+.auth-splash .auth-stage{transform:translateY(-1vh)}
+.auth-splash .auth-mark{
+  animation-delay:.08s;
+}
+.auth-splash .auth-wordline span:nth-child(1){animation-delay:.55s}
+.auth-splash .auth-wordline span:nth-child(2){animation-delay:.61s}
+.auth-splash .auth-wordline span:nth-child(3){animation-delay:.67s}
+.auth-splash .auth-wordline span:nth-child(4){animation-delay:.73s}
+.auth-splash .auth-wordline span:nth-child(5){animation-delay:.79s}
+.auth-splash .auth-wordline span:nth-child(6){animation-delay:.85s}
+.auth-splash .auth-wordline span:nth-child(7){animation-delay:.91s}
+.auth-splash .auth-wordline span:nth-child(8){animation-delay:.97s}
+.auth-splash .auth-wordline span:nth-child(9){animation-delay:1.03s}
+.auth-splash .auth-wordline span:nth-child(10){animation-delay:1.09s}
+.auth-splash .auth-wordline span:nth-child(11){animation-delay:1.15s}
+.auth-splash .auth-wordline span:nth-child(12){animation-delay:1.21s}
+.auth-splash .auth-wordline span:nth-child(13){animation-delay:1.27s}
+.auth-splash .auth-wordline span:nth-child(14){animation-delay:1.33s}
+.auth-splash .auth-wordline span:nth-child(15){animation-delay:1.39s}
+.auth-splash .auth-welcome{
+  margin-top:27px;
+  font-size:11px;
+  letter-spacing:.34em;
+  animation-delay:1.82s;
+}
+.auth-splash .auth-ornament{
+  margin-top:20px;
+  animation-delay:2.08s;
+}
 </style>
 </head>
 <body>
@@ -633,6 +663,12 @@ function req(path,body,done){var finished=false,x=new XMLHttpRequest();function 
 function modal(title,body,k){document.getElementById('mk').textContent=k||'PMS';document.getElementById('mt').textContent=title;document.getElementById('mb').innerHTML=body;document.getElementById('modal').classList.add('open')}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 document.getElementById('mc').onclick=closeModal;document.getElementById('modal').onclick=function(e){if(e.target===this)closeModal()}
+function welcomeSplash(done){
+ app.innerHTML='<main class="auth-screen auth-splash"><div class="auth-stage"><div class="auth-mark"><span class="auth-h">H</span><span class="auth-word">OCARANZA</span></div><div class="auth-wordline">'+('OCARANZA CONNECT').split('').map(function(ch){return '<span>'+ (ch===' ' ? '&nbsp;' : esc(ch)) +'</span>'}).join('')+'</div><div class="auth-welcome">Bienvenido</div><div class="auth-ornament"></div></div></main>';
+ var delay=3200;
+ if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)delay=450;
+ setTimeout(done,delay);
+}
 function health(done){var x=new XMLHttpRequest();x.open('GET',API+'/health',true);x.timeout=8000;x.onreadystatechange=function(){if(x.readyState!==4)return;var d={};try{d=JSON.parse(x.responseText||'{}')}catch(e){}done(x.status,d)};x.onerror=function(){done(0,{error:'No se pudo comprobar el estado de la cuenta.'})};x.ontimeout=function(){done(408,{error:'La comprobación tardó demasiado.'})};x.send()}
 function showPasswordToggle(){
  var btn=document.getElementById('password-toggle'),input=document.getElementById('auth-password');if(!btn||!input)return;
@@ -675,10 +711,12 @@ function login(){
 }
 function load(){
  if(!token()){
-   health(function(s,d){
-     if(s>=200&&s<300&&d.adminExists)login();
-     else if(s>=200&&s<300&&!d.adminExists)setup();
-     else login();
+   welcomeSplash(function(){
+     health(function(s,d){
+       if(s>=200&&s<300&&d.adminExists)login();
+       else if(s>=200&&s<300&&!d.adminExists)setup();
+       else login();
+     });
    });
    return;
  }
