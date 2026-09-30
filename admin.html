@@ -5,7 +5,23 @@
 <meta name="theme-color" content="#090909"><title>OcaranzaConnect · Administración</title>
 <link rel="stylesheet" href="/static/app.css">
 <style>
-body.admin-page{background:#f5f1e9;color:#171714}.admin-shell{max-width:1180px;margin:0 auto;padding:28px 18px 60px}.admin-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.admin-brand{display:flex;align-items:center;gap:12px}.admin-brand .oc-logo-h{font-size:38px}.admin-brand .oc-logo-word{font-size:6px}.admin-top h1{margin:0;font-size:22px}.admin-actions button,.admin-card button{border:1px solid #b99652;background:#0a0a0a;color:#e1bd72;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer}.admin-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px}.admin-card{background:#fff;border:1px solid #ddd4c5;border-radius:22px;padding:22px;box-shadow:0 12px 30px rgba(23,38,31,.06)}.admin-card h2{margin:0 0 7px;font-size:19px}.admin-card>p{margin:0 0 18px;color:#777;font-size:13px;line-height:1.5}.admin-form{display:flex;flex-direction:column;gap:12px}.admin-form label{font-size:11px;font-weight:800;display:flex;flex-direction:column;gap:6px}.admin-form input{border:1px solid #d6cec0;border-radius:11px;padding:11px 12px;font:inherit;background:#faf8f4}.admin-form button{margin-top:4px}.admin-error{color:#8e332a;background:#f7e8e5;padding:10px;border-radius:10px;font-size:12px}.admin-ok{color:#315f42;background:#e8f1ea;padding:10px;border-radius:10px;font-size:12px}.order-list{display:flex;flex-direction:column}.order-row{display:grid;grid-template-columns:1.1fr .8fr .7fr .65fr;gap:12px;padding:15px 0;border-bottom:1px solid #e6dfd4;align-items:center}.order-row strong{font-size:13px}.order-row small{display:block;color:#858078;font-size:11px;margin-top:4px}.order-row b{font-size:13px}.status{justify-self:start;padding:6px 9px;border-radius:999px;background:#f1eadf;color:#806536;font-size:10px;font-weight:800;text-transform:uppercase}.empty{padding:30px 0;color:#777;font-size:13px}@media(max-width:800px){.admin-grid{grid-template-columns:1fr}.order-row{grid-template-columns:1fr 1fr}.status{justify-self:start}}
+body.admin-page{background:#f3efe7;color:#171714}.admin-shell{max-width:1220px;margin:0 auto;padding:28px 20px 70px}
+.admin-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px}
+.admin-brand{display:flex;align-items:center;gap:14px}.admin-brand .oc-logo-h{font-size:40px}.admin-brand .oc-logo-word{font-size:6px}
+.admin-title small{display:block;color:#8b867c;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}.admin-title h1{margin:0;font-size:21px;letter-spacing:-.01em}
+.admin-actions{display:flex;gap:9px}.admin-actions button,.admin-card button{border:1px solid #b99652;background:#0a0a0a;color:#e1bd72;border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer}
+.admin-card{background:#fff;border:1px solid #ddd4c5;border-radius:22px;padding:22px;box-shadow:0 12px 30px rgba(23,38,31,.06)}.admin-card h2{margin:0 0 6px;font-size:18px}.admin-card>p{margin:0 0 18px;color:#777;font-size:12px;line-height:1.5}
+.admin-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px}.admin-stack{display:flex;flex-direction:column;gap:18px}
+.admin-form{display:flex;flex-direction:column;gap:11px}.admin-form label{font-size:10px;font-weight:800;display:flex;flex-direction:column;gap:6px}.admin-form input,.admin-form select{border:1px solid #d6cec0;border-radius:11px;padding:11px 12px;font:inherit;background:#faf8f4;color:#171714}.admin-form input:focus,.admin-form select:focus{outline:0;border-color:#c9a35d;box-shadow:0 0 0 3px rgba(201,163,93,.12)}.admin-form button{margin-top:4px}.admin-form .readonly{background:#f0ece4;color:#6c675e}
+.admin-two{display:grid;grid-template-columns:1fr 1fr;gap:11px}.admin-two label{min-width:0}
+.admin-error,.admin-ok{padding:10px 11px;border-radius:10px;font-size:11px}.admin-error{color:#8e332a;background:#f7e8e5}.admin-ok{color:#315f42;background:#e8f1ea}
+.admin-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:18px}.metric{background:#0a0a0a;color:#fff;border:1px solid rgba(218,182,105,.28);border-radius:17px;padding:17px}.metric small{display:block;color:#aaa59d;font-size:9px;text-transform:uppercase;letter-spacing:.12em}.metric strong{display:block;color:#e1bd72;font-size:25px;margin-top:7px}
+.room-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.room-tile{padding:15px;border:1px solid #e0d9ce;border-radius:17px;background:#fbfaf7;position:relative;min-height:92px}.room-tile.occupied{background:#f5ead4;border-color:#d2ae69}.room-tile>strong{font-size:17px}.room-floor{display:block;color:#989188;font-size:9px;margin-top:4px;text-transform:uppercase;letter-spacing:.1em}.room-state{display:inline-flex;margin-top:10px;padding:5px 7px;border-radius:999px;font-size:8px;font-weight:800;text-transform:uppercase;background:#e9eee9;color:#48624f}.room-tile.occupied .room-state{background:#0a0a0a;color:#e1bd72}.room-count{position:absolute;right:11px;top:12px;font-size:9px;color:#777}
+.registry{overflow:auto}.guest-table{width:100%;border-collapse:collapse;min-width:720px}.guest-table th{text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:#918b82;padding:0 10px 11px}.guest-table td{padding:13px 10px;border-top:1px solid #e8e1d6;font-size:12px;vertical-align:middle}.guest-main strong{display:block;font-size:13px}.guest-main small{display:block;color:#858078;font-size:10px;margin-top:3px}.guest-status,.discount-badge{display:inline-flex;padding:6px 8px;border-radius:999px;font-size:8px;font-weight:800;text-transform:uppercase}.guest-status{background:#e8f1ea;color:#315f42}.guest-status.blocked{background:#f7e8e5;color:#8e332a}.guest-status.checked_out{background:#ece9e4;color:#706b64}.discount-badge{background:#f3ead8;color:#806536}
+.order-list{display:flex;flex-direction:column}.order-row{display:grid;grid-template-columns:1.15fr .75fr .7fr .65fr;gap:12px;padding:14px 0;border-bottom:1px solid #e6dfd4;align-items:center}.order-row strong{font-size:12px}.order-row small{display:block;color:#858078;font-size:10px;margin-top:4px}.order-row b{font-size:12px}.status{justify-self:start;padding:6px 9px;border-radius:999px;background:#f1eadf;color:#806536;font-size:8px;font-weight:800;text-transform:uppercase}.empty{padding:26px 0;color:#777;font-size:12px}
+.section-bar{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:14px}.section-bar h2{margin:0}.section-bar p{margin:4px 0 0;color:#888;font-size:11px}.ghost-button{border:1px solid #d6cec0!important;background:#fff!important;color:#3a3935!important}
+@media(max-width:980px){.admin-grid{grid-template-columns:1fr}.room-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.admin-shell{padding:20px 13px 55px}.admin-top{align-items:flex-start}.admin-brand{gap:9px}.admin-title h1{font-size:18px}.admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{padding:13px}.metric strong{font-size:22px}.room-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-two{grid-template-columns:1fr}.admin-card{padding:18px}.order-row{grid-template-columns:1fr 1fr}.admin-actions button{padding:9px 10px;font-size:10px}.oc-logo-header .oc-logo-h{font-size:34px}}
 </style>
 </head>
 <body class="admin-page">
@@ -24,30 +40,67 @@ function req(path,body,done){
 }
 function health(done){var x=new XMLHttpRequest();x.open('GET',API+'/health',true);x.onreadystatechange=function(){if(x.readyState!==4)return;var d={};try{d=JSON.parse(x.responseText||'{}')}catch(e){}done(x.status,d)};x.send()}
 function shell(body){
- app.innerHTML='<div class="admin-shell"><header class="admin-top"><div class="admin-brand"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span><h1>OcaranzaConnect · Administración</h1></div><div class="admin-actions"><button id="logout">Cerrar sesión</button></div></header>'+body+'</div>';
+ app.innerHTML='<div class="admin-shell"><header class="admin-top"><div class="admin-brand"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span><div class="admin-title"><small>Gestión interna</small><h1>OcaranzaConnect · Recepción</h1></div></div><div class="admin-actions"><button id="refresh">Actualizar</button><button id="logout">Cerrar sesión</button></div></header>'+body+'</div>';
  var l=document.getElementById('logout');if(l)l.onclick=function(){clear();render()};
+ var refresh=document.getElementById('refresh');if(refresh)refresh.onclick=loadDashboard;
 }
 function render(){
  if(token()){dashboard();return}
- health(function(status,data){
-  if(data.adminExists)login();
-  else setup();
- });
+ health(function(status,data){if(data.adminExists)login();else setup()});
 }
 function setup(){
- shell('<div class="admin-card" style="max-width:460px;margin:60px auto"><h2>Crear administrador</h2><p>Este será el acceso privado para gestionar huéspedes, pedidos y el contenido operativo del portal.</p><form id="setup" class="admin-form"><label>Correo<input name="email" type="email" required></label><label>Contraseña<input name="password" type="password" minlength="8" required></label><button>Crear administrador</button><div id="msg"></div></form></div>');
+ shell('<div class="admin-card" style="max-width:470px;margin:70px auto"><h2>Activar administrador</h2><p>El primer acceso quedará identificado como <strong>Admin</strong>. Define aquí la contraseña privada que utilizarás en recepción.</p><form id="setup" class="admin-form"><label>Usuario<input class="readonly" name="username" value="Admin" readonly></label><label>Correo interno<input class="readonly" name="email" value="admin@ocaranzaconnect.local" readonly></label><label>Contraseña<input name="password" type="password" minlength="8" required placeholder="Define la clave administrativa"></label><button>Activar acceso</button><div id="msg"></div></form></div>');
  document.getElementById('setup').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('msg');b.disabled=true;req('signup',{email:f.email.value,password:f.password.value},function(s,d){if(s>=200&&s<300&&d.session){save(d.session.access_token);dashboard()}else{b.disabled=false;m.className='admin-error';m.textContent=d.error||'No se pudo crear el administrador.'}})}
 }
 function login(){
- shell('<div class="admin-card" style="max-width:460px;margin:60px auto"><h2>Acceso administrativo</h2><p>Ingresa para gestionar huéspedes y pedidos.</p><form id="login" class="admin-form"><label>Correo<input name="email" type="email" required></label><label>Contraseña<input name="password" type="password" required></label><button>Ingresar</button><div id="msg"></div></form></div>');
- document.getElementById('login').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('msg');b.disabled=true;req('login',{email:f.email.value,password:f.password.value},function(s,d){if(s>=200&&s<300&&d.session){save(d.session.access_token);dashboard()}else{b.disabled=false;m.className='admin-error';m.textContent=d.error||'No se pudo iniciar sesión.'}})}
+ shell('<div class="admin-card" style="max-width:470px;margin:70px auto"><h2>Acceso administrativo</h2><p>Ingresa con el usuario de recepción y la contraseña privada.</p><form id="login" class="admin-form"><label>Usuario<input name="username" autocomplete="username" value="Admin" required></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label><button>Ingresar</button><div id="msg"></div></form></div>');
+ document.getElementById('login').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('msg');b.disabled=true;req('login',{username:f.username.value,password:f.password.value},function(s,d){if(s>=200&&s<300&&d.session){save(d.session.access_token);dashboard()}else{b.disabled=false;m.className='admin-error';m.textContent=d.error||'No se pudo iniciar sesión.'}})}
 }
 function dashboard(){
- shell('<div class="admin-grid"><section class="admin-card"><h2>Nuevo huésped</h2><p>Crea las credenciales que recepción entregará al huésped.</p><form id="guest" class="admin-form"><label>Nombre completo<input name="display_name" required></label><label>Usuario<input name="username" pattern="[A-Za-z0-9._-]{3,32}" required></label><label>Clave<input name="password" minlength="6" required></label><label>Habitación<input name="room_number" required></label><label>Check-in<input name="check_in" type="date"></label><label>Check-out<input name="check_out" type="date"></label><button>Crear cuenta</button><div id="guest-msg"></div></form></section><section class="admin-card"><h2>Pedidos de huéspedes</h2><p>Vista operativa de solicitudes y consumos registrados en el portal.</p><div id="orders" class="order-list">Cargando...</div></section></div>');
- document.getElementById('guest').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('guest-msg');b.disabled=true;var body={display_name:f.display_name.value,username:f.username.value,password:f.password.value,room_number:f.room_number.value,check_in:f.check_in.value||null,check_out:f.check_out.value||null};req('guest-create',body,function(s,d){b.disabled=false;m.className=s>=200&&s<300?'admin-ok':'admin-error';m.textContent=s>=200&&s<300?'Cuenta creada: '+d.profile.username:(d.error||'No se pudo crear la cuenta.');if(s>=200&&s<300)f.reset();})};
- loadOrders();
+ shell('<section class="admin-metrics"><div class="metric"><small>Habitaciones</small><strong id="m-rooms">10</strong></div><div class="metric"><small>Ocupadas</small><strong id="m-occupied">0</strong></div><div class="metric"><small>Huéspedes activos</small><strong id="m-guests">0</strong></div><div class="metric"><small>Pedidos pendientes</small><strong id="m-orders">0</strong></div></section><div class="admin-grid"><section class="admin-stack"><div class="admin-card"><h2>Registrar huésped</h2><p>Crea la cuenta que recepción entregará al huésped y asígnala directamente a una de las habitaciones disponibles.</p><form id="guest" class="admin-form"><label>Nombre completo<input name="display_name" required placeholder="Nombre y apellido"></label><label>Usuario<input name="username" pattern="[A-Za-z0-9._-]{3,32}" required placeholder="Ej. juan.perez"></label><label>Clave<input name="password" minlength="6" required placeholder="Mínimo 6 caracteres"></label><label>Habitación<select name="room_number" required><option value="">Seleccionar habitación</option><option>201</option><option>202</option><option>203</option><option>204</option><option>205</option><option>301</option><option>302</option><option>303</option><option>304</option><option>305</option></select></label><div class="admin-two"><label>Check-in<input name="check_in" type="date"></label><label>Check-out<input name="check_out" type="date"></label></div><div class="discount-badge">Beneficio huésped · 10% descuento</div><button>Crear cuenta de huésped</button><div id="guest-msg"></div></form></div><div class="admin-card"><div class="section-bar"><div><h2>Estado de habitaciones</h2><p>Vista rápida de las 10 habitaciones del hotel.</p></div></div><div id="rooms" class="room-grid">Cargando...</div></div></section><section class="admin-stack"><div class="admin-card"><div class="section-bar"><div><h2>Registro de huéspedes</h2><p>Historial de cuentas creadas y habitación asignada.</p></div><button class="ghost-button" id="guest-refresh">Actualizar registro</button></div><div id="guests" class="registry">Cargando...</div></div><div class="admin-card"><div class="section-bar"><div><h2>Pedidos</h2><p>Consumos y solicitudes enviados desde el portal.</p></div></div><div id="orders" class="order-list">Cargando...</div></div></section></div>');
+ var f=document.getElementById('guest');
+ f.onsubmit=function(e){e.preventDefault();var b=f.querySelector('button'),m=document.getElementById('guest-msg');b.disabled=true;m.innerHTML='';var body={display_name:f.display_name.value,username:f.username.value,password:f.password.value,room_number:f.room_number.value,check_in:f.check_in.value||null,check_out:f.check_out.value||null};req('guest-create',body,function(s,d){b.disabled=false;m.className=s>=200&&s<300?'admin-ok':'admin-error';m.textContent=s>=200&&s<300?'Cuenta creada: '+esc(d.profile.username)+' · Habitación '+esc(d.profile.room_number):(d.error||'No se pudo crear la cuenta.');if(s>=200&&s<300){f.reset();loadDashboard()}})};
+ var gr=document.getElementById('guest-refresh');if(gr)gr.onclick=loadDashboard;
+ loadDashboard();
 }
-function loadOrders(){req('admin-orders',{},function(s,d){var box=document.getElementById('orders');if(!box)return;if(s<200||s>=300){box.innerHTML='<div class="admin-error">'+esc(d.error||'No se pudieron cargar los pedidos.')+'</div>';return}var rows=d.orders||[];if(!rows.length){box.innerHTML='<div class="empty">Todavía no hay pedidos.</div>';return}var out='';for(var i=0;i<rows.length;i++){var o=rows[i],g=o.oc_guest_profiles||{};out+='<div class="order-row"><div><strong>'+esc(o.item_name)+'</strong><small>'+esc(g.display_name||g.username||'Huésped')+' · Hab. '+esc(g.room_number)+'</small></div><div><small>'+esc(o.source)+'</small><b>'+o.quantity+' × $'+Number(o.unit_price||0).toLocaleString('es-CL')+'</b></div><b>$'+Number(o.total||0).toLocaleString('es-CL')+'</b><span class="status">'+esc(o.status)+'</span></div>'}box.innerHTML=out})}
+function loadDashboard(){
+ if(!token())return;
+ req('admin-guests',{},function(s,d){
+   if(s===401||s===403){clear();render();return}
+   if(s<200||s>=300){return}
+   var stats=d.stats||{},rooms=d.rooms||[],guests=d.guests||[];
+   var m1=document.getElementById('m-rooms'),m2=document.getElementById('m-occupied'),m3=document.getElementById('m-guests');
+   if(m1)m1.textContent=stats.rooms_total||10;if(m2)m2.textContent=stats.rooms_occupied||0;if(m3)m3.textContent=stats.guests_active||0;
+   renderRooms(rooms);renderGuests(guests);
+ });
+ req('admin-orders',{},function(s,d){
+   if(s<200||s>=300)return;
+   var rows=d.orders||[],pending=0;for(var i=0;i<rows.length;i++)if(rows[i].status==='pending')pending++;
+   var mo=document.getElementById('m-orders');if(mo)mo.textContent=pending;
+   renderOrders(rows);
+ });
+}
+function renderRooms(rooms){
+ var box=document.getElementById('rooms');if(!box)return;
+ if(!rooms.length){box.innerHTML='<div class="empty">No hay habitaciones registradas.</div>';return}
+ var out='';
+ for(var i=0;i<rooms.length;i++){var r=rooms[i];out+='<div class="room-tile'+(r.occupied?' occupied':'')+'"><strong>'+esc(r.room_number)+'</strong><span class="room-count">'+Number(r.guest_count||0)+' huésp.</span><span class="room-floor">Piso '+esc(r.floor)+'</span><span class="room-state">'+(r.occupied?'Ocupada':'Disponible')+'</span></div>'}
+ box.innerHTML=out;
+}
+function renderGuests(guests){
+ var box=document.getElementById('guests');if(!box)return;
+ if(!guests.length){box.innerHTML='<div class="empty">Todavía no hay huéspedes registrados.</div>';return}
+ var out='<table class="guest-table"><thead><tr><th>Huésped</th><th>Habitación</th><th>Estadía</th><th>Beneficio</th><th>Estado</th></tr></thead><tbody>';
+ for(var i=0;i<guests.length;i++){var g=guests[i];var st=g.status||'active';out+='<tr><td class="guest-main"><strong>'+esc(g.display_name)+'</strong><small>@'+esc(g.username)+'</small></td><td><strong>'+esc(g.room_number)+'</strong></td><td><small>'+esc(g.check_in||'Sin fecha')+' → '+esc(g.check_out||'Sin fecha')+'</small></td><td><span class="discount-badge">'+Number(g.discount_percent||10)+'% OFF</span></td><td><span class="guest-status '+(st!=='active'?esc(st):'')+'">'+(st==='active'?'Activo':st==='checked_out'?'Check-out':'Bloqueado')+'</span></td></tr>'}
+ out+='</tbody></table>';box.innerHTML=out;
+}
+function renderOrders(rows){
+ var box=document.getElementById('orders');if(!box)return;
+ if(!rows.length){box.innerHTML='<div class="empty">Todavía no hay pedidos.</div>';return}
+ var out='';
+ for(var i=0;i<rows.length;i++){var o=rows[i],g=o.oc_guest_profiles||{};out+='<div class="order-row"><div><strong>'+esc(o.item_name)+'</strong><small>'+esc(g.display_name||g.username||'Huésped')+' · Hab. '+esc(g.room_number||'')+'</small></div><div><small>'+esc(o.source||'hotel')+'</small><b>'+Number(o.quantity||0)+' × $'+Number(o.unit_price||0).toLocaleString('es-CL')+'</b></div><b>$'+Number(o.total||0).toLocaleString('es-CL')+'</b><span class="status">'+esc(o.status||'pending')+'</span></div>'}
+ box.innerHTML=out;
+}
 render();
 })();
 </script>
