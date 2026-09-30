@@ -197,13 +197,4 @@
 
 }());
 </script>
-</body></html>+Number(data.balance||0).toLocaleString('es-CL')+'</strong></div><div><span>Beneficio</span><strong>'+Number(data.profile.discount_percent||10)+'% OFF</strong></div></div><section class="guest-orders"><div class="section-head"><h2>Mis pedidos</h2><button id="guest-logout" type="button">Cerrar sesión</button></div>'+(rows||'<div class="module-note">Todavía no tienes pedidos.</div>')+'</section>';
-      var logout=document.getElementById('guest-logout');if(logout)logout.addEventListener('click',function(){try{localStorage.removeItem('oc_guest_token')}catch(e){};go('home');});
-    });
-  }
-}());
-</script>
 </body></html>
-</script>
-</body>
-</html>
