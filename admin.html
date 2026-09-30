@@ -358,6 +358,261 @@
   .dashboard-section{padding:14px}
   .dashboard-room{min-width:72px}
 }
+
+/* Acceso de recepción · bienvenida premium */
+.auth-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 36%,rgba(198,161,93,.10),transparent 28%),
+    linear-gradient(180deg,#faf8f3 0%,#f1ece1 100%);
+}
+.auth-screen:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,transparent 0,rgba(198,161,93,.07) 50%,transparent 100%);
+  pointer-events:none;
+}
+.auth-stage{
+  width:min(540px,calc(100% - 34px));
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+.auth-mark{
+  position:relative;
+  width:116px;
+  height:116px;
+  margin:0 auto 25px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(198,161,93,.32);
+  border-radius:50%;
+  background:rgba(255,253,249,.78);
+  box-shadow:0 18px 50px rgba(26,30,27,.08),inset 0 1px 0 rgba(255,255,255,.85);
+  opacity:0;
+  transform:translateY(8px) scale(.96);
+  animation:authMarkIn .8s cubic-bezier(.16,1,.3,1) .18s forwards;
+}
+.auth-mark:before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(198,161,93,.20);
+  border-radius:50%;
+}
+.auth-mark .auth-h{
+  position:relative;
+  color:#1b2b24;
+  font:500 54px/1 Georgia,"Times New Roman",serif;
+  letter-spacing:-.04em;
+}
+.auth-mark .auth-word{
+  position:relative;
+  margin-top:7px;
+  color:#9b793d;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.31em;
+  text-indent:.31em;
+}
+.auth-wordline{
+  display:inline-flex;
+  justify-content:center;
+  overflow:hidden;
+  margin-top:2px;
+}
+.auth-wordline span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(16px);
+  animation:authLetterIn .38s cubic-bezier(.16,1,.3,1) forwards;
+}
+.auth-wordline span:nth-child(1){animation-delay:.78s}
+.auth-wordline span:nth-child(2){animation-delay:.84s}
+.auth-wordline span:nth-child(3){animation-delay:.90s}
+.auth-wordline span:nth-child(4){animation-delay:.96s}
+.auth-wordline span:nth-child(5){animation-delay:1.02s}
+.auth-wordline span:nth-child(6){animation-delay:1.08s}
+.auth-wordline span:nth-child(7){animation-delay:1.14s}
+.auth-wordline span:nth-child(8){animation-delay:1.20s}
+.auth-wordline span:nth-child(9){animation-delay:1.26s}
+.auth-wordline span:nth-child(10){animation-delay:1.32s}
+.auth-welcome{
+  margin-top:16px;
+  color:#a07d43;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  opacity:0;
+  transform:translateY(8px);
+  animation:authFadeUp .7s cubic-bezier(.16,1,.3,1) 1.65s forwards;
+}
+.auth-title{
+  margin:12px 0 0;
+  color:#16231e;
+  font:500 38px Georgia,"Times New Roman",serif;
+  letter-spacing:-.035em;
+  opacity:0;
+  transform:translateY(10px);
+  animation:authFadeUp .7s cubic-bezier(.16,1,.3,1) 1.82s forwards;
+}
+.auth-subtitle{
+  max-width:370px;
+  margin:9px auto 0;
+  color:#817b72;
+  font-size:11px;
+  line-height:1.7;
+  opacity:0;
+  transform:translateY(10px);
+  animation:authFadeUp .7s cubic-bezier(.16,1,.3,1) 1.98s forwards;
+}
+.auth-card{
+  max-width:410px;
+  margin:25px auto 0;
+  padding:23px;
+  background:rgba(255,253,249,.94);
+  border:1px solid rgba(198,161,93,.36);
+  border-radius:22px;
+  box-shadow:0 22px 60px rgba(26,30,27,.10);
+  text-align:left;
+  opacity:0;
+  transform:translateY(20px) scale(.98);
+  animation:authCardIn .82s cubic-bezier(.16,1,.3,1) 2.24s forwards;
+}
+.auth-card:before{
+  content:"";
+  display:block;
+  width:66px;
+  height:2px;
+  margin:0 auto 18px;
+  border-radius:99px;
+  background:linear-gradient(90deg,transparent,#c6a15d,transparent);
+}
+.auth-card .field label{
+  color:#625d55;
+  font-size:8px;
+  letter-spacing:.10em;
+}
+.auth-card .field input{
+  min-height:44px;
+  border-color:#d6cdbf;
+  background:#fbfaf7;
+  border-radius:12px;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.auth-card .field input:focus{
+  border-color:#c6a15d;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(198,161,93,.13);
+}
+.password-wrap{
+  position:relative;
+}
+.password-wrap input{
+  width:100%;
+  padding-right:45px;
+}
+.password-toggle{
+  position:absolute;
+  top:50%;
+  right:8px;
+  width:34px;
+  height:34px;
+  transform:translateY(-50%);
+  border:0;
+  background:transparent;
+  color:#8d8067;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+}
+.password-toggle:hover{
+  background:#f1eadf;
+  color:#745c32;
+}
+.password-toggle svg{
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.auth-submit{
+  width:100%;
+  min-height:46px;
+  margin-top:15px;
+  border:1px solid rgba(198,161,93,.58);
+  border-radius:13px;
+  background:linear-gradient(135deg,#10211a,#1a3027);
+  color:#e5c880;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.02em;
+  cursor:pointer;
+  box-shadow:0 12px 25px rgba(16,33,26,.15),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.auth-submit:hover{
+  transform:translateY(-2px);
+  border-color:#d2ae68;
+  box-shadow:0 16px 32px rgba(16,33,26,.20);
+}
+.auth-footer{
+  margin-top:15px;
+  text-align:center;
+  color:#9a9389;
+  font-size:8px;
+  line-height:1.5;
+}
+.auth-footer strong{color:#806536}
+.auth-ornament{
+  width:min(330px,72%);
+  height:1px;
+  margin:26px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(198,161,93,.55),transparent);
+  opacity:0;
+  animation:authFade .8s 2.08s forwards;
+}
+.setup-note{
+  margin-top:12px;
+  padding:10px 11px;
+  border-left:2px solid #c6a15d;
+  border-radius:0 9px 9px 0;
+  background:#f5efe4;
+  color:#746d63;
+  font-size:8px;
+  line-height:1.55;
+}
+@keyframes authMarkIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes authLetterIn{to{opacity:1;transform:translateY(0)}}
+@keyframes authFadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes authCardIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes authFade{to{opacity:1}}
+@media(max-width:600px){
+  .auth-stage{width:min(450px,calc(100% - 24px))}
+  .auth-mark{width:102px;height:102px}
+  .auth-mark .auth-h{font-size:47px}
+  .auth-title{font-size:31px}
+  .auth-card{padding:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  .auth-mark,.auth-wordline span,.auth-welcome,.auth-title,.auth-subtitle,.auth-card,.auth-ornament{
+    animation:none!important;opacity:1;transform:none;
+  }
+}
 </style>
 </head>
 <body>
@@ -379,20 +634,45 @@ function modal(title,body,k){document.getElementById('mk').textContent=k||'PMS';
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 document.getElementById('mc').onclick=closeModal;document.getElementById('modal').onclick=function(e){if(e.target===this)closeModal()}
 function health(done){var x=new XMLHttpRequest();x.open('GET',API+'/health',true);x.timeout=8000;x.onreadystatechange=function(){if(x.readyState!==4)return;var d={};try{d=JSON.parse(x.responseText||'{}')}catch(e){}done(x.status,d)};x.onerror=function(){done(0,{error:'No se pudo comprobar el estado de la cuenta.'})};x.ontimeout=function(){done(408,{error:'La comprobación tardó demasiado.'})};x.send()}
+function showPasswordToggle(){
+ var btn=document.getElementById('password-toggle'),input=document.getElementById('auth-password');if(!btn||!input)return;
+ btn.onclick=function(){
+   var visible=input.type==='text';
+   input.type=visible?'password':'text';
+   btn.setAttribute('aria-label',visible?'Mostrar contraseña':'Ocultar contraseña');
+   btn.innerHTML=visible?'<svg viewBox="0 0 24 24"><path d="M2.5 12s3.4-5.4 9.5-5.4 9.5 5.4 9.5 5.4-3.4 5.4-9.5 5.4S2.5 12 2.5 12Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg>':'<svg viewBox="0 0 24 24"><path d="M3 3l18 18"></path><path d="M9.9 5.9A10.2 10.2 0 0 1 12 5.7c6.1 0 9.5 6.3 9.5 6.3a18 18 0 0 1-3.2 3.8"></path><path d="M6.6 6.6C3.8 8.2 2.5 12 2.5 12s3.4 6.3 9.5 6.3c1.2 0 2.3-.2 3.2-.5"></path></svg>';
+ };
+}
+function authBrand(){
+ return '<div class="auth-mark"><span class="auth-h">H</span><span class="auth-word">OCARANZA</span></div><div class="auth-wordline">'+('OCARANZA CONNECT').split('').map(function(ch){return '<span>'+ (ch===' ' ? '&nbsp;' : esc(ch)) +'</span>'}).join('')+'</div>';
+}
+function authLayout(content){
+ app.innerHTML='<main class="auth-screen"><div class="auth-stage">'+authBrand()+'<div class="auth-welcome">Recepción digital</div><h1 class="auth-title">Bienvenido</h1><p class="auth-subtitle">Tu centro de operaciones para Hotel Ocaranza está listo para recibirte.</p>'+content+'<div class="auth-ornament"></div></div></main>';
+}
 function setup(){
- app.innerHTML='<div class="shell"><div class="card login"><div style="text-align:center"><span class="logo-h">H</span><span class="logo-word">OCARANZA</span></div><span class="kicker">Primer acceso</span><h1 style="font:500 27px Georgia,serif;margin:6px 0 4px">Activar Centro PMS</h1><p class="muted" style="line-height:1.6">El administrador quedará identificado como <strong>Admin</strong>. Define aquí la contraseña privada que usarás en recepción.</p><form id="sf"><div class="field" style="margin-top:15px"><label>Usuario</label><input value="Admin" readonly></div><div class="field" style="margin-top:10px"><label>Contraseña</label><input id="setup-password" name="password" type="password" required minlength="8" autocomplete="new-password"></div><div class="notice" style="margin-top:10px">Esta contraseña no se guarda en el código del sitio. Se crea directamente en Supabase Auth.</div><button class="btn" style="width:100%;margin-top:14px">Activar administrador</button><div id="se"></div></form></div></div>';
+ authLayout('<section class="auth-card"><span class="kicker">Primer acceso</span><h2 style="font:500 23px Georgia,serif;margin:6px 0 4px">Activar administrador</h2><p class="muted" style="line-height:1.6">Este primer acceso creará la cuenta administrativa <strong>Admin</strong>. Define la contraseña privada que usarás en recepción.</p><form id="sf"><div class="field" style="margin-top:15px"><label>Usuario</label><input value="Admin" readonly></div><div class="field" style="margin-top:10px"><label>Contraseña</label><div class="password-wrap"><input id="setup-password" name="password" type="password" required minlength="8" autocomplete="new-password"><button type="button" class="password-toggle" id="setup-password-toggle" aria-label="Mostrar contraseña"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.4-5.4 9.5-5.4 9.5 5.4 9.5 5.4-3.4 5.4-9.5 5.4S2.5 12 2.5 12Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div></div><div class="setup-note">La contraseña se utiliza únicamente para autenticación. No se muestra ni se incrusta en el código del sitio.</div><button class="auth-submit">Activar administrador</button><div id="se"></div></form><div class="auth-footer">Acceso protegido · <strong>OcaranzaConnect PMS</strong></div></section>');
+ document.getElementById('setup-password-toggle').onclick=function(){var p=document.getElementById('setup-password');var v=p.type==='text';p.type=v?'password':'text';this.innerHTML=v?'<svg viewBox="0 0 24 24"><path d="M2.5 12s3.4-5.4 9.5-5.4 9.5 5.4 9.5 5.4-3.4 5.4-9.5 5.4S2.5 12 2.5 12Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg>':'<svg viewBox="0 0 24 24"><path d="M3 3l18 18"></path><path d="M9.9 5.9A10.2 10.2 0 0 1 12 5.7c6.1 0 9.5 6.3 9.5 6.3a18 18 0 0 1-3.2 3.8"></path><path d="M6.6 6.6C3.8 8.2 2.5 12 2.5 12s3.4 6.3 9.5 6.3c1.2 0 2.3-.2 3.2-.5"></path></svg>'};
  document.getElementById('sf').onsubmit=function(e){
-   e.preventDefault();
-   var f=e.target,b=f.querySelector('button.btn'),m=document.getElementById('se');
-   b.disabled=true;m.innerHTML='';
+   e.preventDefault();var f=e.target,b=f.querySelector('.auth-submit'),m=document.getElementById('se');b.disabled=true;m.textContent='';
    req('signup',{email:'admin@ocaranzaconnect.app',password:f.password.value},function(s,d){
      if(s>=200&&s<300&&d.session){localStorage.setItem('oc_admin_token',d.session.access_token);load();return}
      if(s>=200&&s<300&&d.needsLogin){m.className='notice';m.textContent=d.warning||'Administrador creado. Ahora inicia sesión.';setTimeout(login,700);return}
      b.disabled=false;m.className='error';m.textContent=d.error||'No se pudo activar el administrador.';
    });
  };
+ showPasswordToggle();
 }
-function login(){app.innerHTML='<div class="shell"><div class="card login"><div style="text-align:center"><span class="logo-h">H</span><span class="logo-word">OCARANZA</span></div><span class="kicker">Gestión interna</span><h1 style="font:500 27px Georgia,serif;margin:6px 0 4px">Centro PMS</h1><p class="muted" style="line-height:1.6">Acceso exclusivo para recepción y administración.</p><form id="lf"><div class="field" style="margin-top:15px"><label>Usuario</label><input name="username" value="Admin" readonly></div><div class="field" style="margin-top:10px"><label>Contraseña</label><div class="login-pass"><input id="admin-password" name="password" type="password" required minlength="8"><button type="button" class="eye-btn" id="toggle-password" aria-label="Mostrar contraseña">◉</button></div></div><button class="btn" style="width:100%;margin-top:14px">Ingresar</button><div id="le"></div></form></div></div>';document.getElementById('toggle-password').onclick=function(){var p=document.getElementById('admin-password');var shown=p.type==='text';p.type=shown?'password':'text';this.textContent=shown?'◉':'◉̸'};document.getElementById('lf').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button.btn'),m=document.getElementById('le');b.disabled=true;req('login',{username:'Admin',password:f.password.value},function(s,d){if(s>=200&&s<300&&d.session){localStorage.setItem('oc_admin_token',d.session.access_token);load()}else{b.disabled=false;m.className='error';m.textContent=d.error||'No se pudo iniciar sesión.'}})}}
+function login(){
+ authLayout('<section class="auth-card"><span class="kicker">Acceso privado</span><h2 style="font:500 23px Georgia,serif;margin:6px 0 4px">Centro PMS</h2><p class="muted" style="line-height:1.6">Ingresa para continuar con la operación de Hotel Ocaranza.</p><form id="lf"><div class="field" style="margin-top:15px"><label>Usuario</label><input name="username" value="Admin" readonly autocomplete="username"></div><div class="field" style="margin-top:10px"><label>Contraseña</label><div class="password-wrap"><input id="auth-password" name="password" type="password" required minlength="8" autocomplete="current-password"><button type="button" class="password-toggle" id="password-toggle" aria-label="Mostrar contraseña"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.4-5.4 9.5-5.4 9.5 5.4 9.5 5.4-3.4 5.4-9.5 5.4S2.5 12 2.5 12Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div></div><button class="auth-submit" id="auth-submit">Ingresar al PMS</button><div id="le"></div></form><div class="auth-footer">Bienvenido a tu centro de operaciones · <strong>OcaranzaConnect</strong></div></section>');
+ showPasswordToggle();
+ document.getElementById('lf').onsubmit=function(e){
+   e.preventDefault();var f=e.target,b=document.getElementById('auth-submit'),m=document.getElementById('le');b.disabled=true;m.textContent='';
+   req('login',{username:'Admin',password:f.password.value},function(s,d){
+     if(s>=200&&s<300&&d.session){localStorage.setItem('oc_admin_token',d.session.access_token);load();return}
+     b.disabled=false;m.className='error';m.textContent=d.error||'No se pudo iniciar sesión.';
+   });
+ };
+}
 function load(){
  if(!token()){
    health(function(s,d){
