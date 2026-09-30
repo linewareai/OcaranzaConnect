@@ -173,3 +173,284 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 @media(min-width:761px){.mobile-nav,.mobile-more{display:none!important}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* OcaranzaConnect · acceso y administración general */
+.oc-auth{
+  min-height:100vh;
+  min-height:100dvh;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 50% 34%,rgba(201,166,97,.11),transparent 29%),
+    linear-gradient(180deg,#fbfaf7 0%,#f0ebe2 100%);
+}
+.oc-auth:before,.oc-auth:after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(201,166,97,.13);
+  border-radius:50%;
+  pointer-events:none;
+}
+.oc-auth:before{width:520px;height:520px;top:-240px;right:-190px}
+.oc-auth:after{width:430px;height:430px;bottom:-235px;left:-190px}
+.oc-auth-stage{
+  width:min(600px,calc(100% - 32px));
+  position:relative;
+  z-index:1;
+  text-align:center;
+}
+.oc-splash-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  line-height:.9;
+  color:#18251f;
+}
+.oc-splash-word{
+  display:flex;
+  justify-content:center;
+  overflow:hidden;
+  white-space:nowrap;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:400;
+  letter-spacing:-.045em;
+}
+.oc-splash-word.top{font-size:clamp(40px,8vw,72px)}
+.oc-splash-word.bottom{
+  margin-top:2px;
+  font-size:clamp(42px,8.4vw,76px);
+  color:#a07b3d;
+  letter-spacing:-.055em;
+}
+.oc-splash-word span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(28px) scale(.94);
+  filter:blur(4px);
+  animation:ocLetterIn .58s cubic-bezier(.16,1,.3,1) forwards;
+}
+.oc-splash-sub{
+  margin-top:23px;
+  color:#887f71;
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.36em;
+  opacity:0;
+  transform:translateY(8px);
+  animation:ocFadeUp .7s cubic-bezier(.16,1,.3,1) 1.45s forwards;
+}
+.oc-splash-line{
+  width:min(260px,55%);
+  height:1px;
+  margin:18px auto 0;
+  background:linear-gradient(90deg,transparent,#c6a15d,transparent);
+  opacity:0;
+  transform:scaleX(.35);
+  animation:ocLineIn .8s cubic-bezier(.16,1,.3,1) 1.72s forwards;
+}
+.oc-login-brand{
+  margin-bottom:26px;
+}
+.oc-login-brand .brand-word{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:35px;
+  letter-spacing:-.05em;
+  color:#18251f;
+}
+.oc-login-brand .brand-word span{color:#a07b3d}
+.oc-login-brand small{
+  display:block;
+  margin-top:7px;
+  color:#8d857b;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.oc-auth-card{
+  width:min(430px,100%);
+  margin:0 auto;
+  text-align:left;
+  padding:26px;
+  border:1px solid rgba(201,166,97,.38);
+  border-radius:24px;
+  background:rgba(255,253,250,.95);
+  box-shadow:0 28px 70px rgba(22,33,27,.11),inset 0 1px 0 rgba(255,255,255,.85);
+}
+.oc-auth-card:before{
+  content:"";
+  display:block;
+  width:66px;
+  height:2px;
+  margin:0 auto 18px;
+  border-radius:99px;
+  background:linear-gradient(90deg,transparent,#c6a15d,transparent);
+}
+.oc-auth-card h1{
+  margin:7px 0 7px;
+  font:500 28px Georgia,serif;
+  letter-spacing:-.03em;
+  color:#18251f;
+}
+.oc-auth-card p{
+  margin:0 0 18px;
+  color:#7d776e;
+  font-size:10px;
+  line-height:1.65;
+}
+.oc-field{display:flex;flex-direction:column;gap:6px;margin-top:11px}
+.oc-field label{font-size:8px;color:#686259;text-transform:uppercase;letter-spacing:.09em;font-weight:900}
+.oc-field input{
+  width:100%;
+  min-height:44px;
+  border:1px solid #d7cfc2;
+  border-radius:12px;
+  padding:11px 12px;
+  background:#fbfaf7;
+  color:#18251f;
+  font-size:11px;
+}
+.oc-field input:focus{border-color:#c6a15d;box-shadow:0 0 0 3px rgba(198,161,93,.13);outline:0;background:#fff}
+.oc-pass-wrap{position:relative}
+.oc-pass-wrap input{padding-right:45px}
+.oc-eye{
+  position:absolute;
+  right:7px;
+  top:50%;
+  transform:translateY(-50%);
+  width:34px;height:34px;
+  display:grid;place-items:center;
+  border:0;background:transparent;border-radius:9px;color:#8c7b5e;
+}
+.oc-eye:hover{background:#f2ecdf;color:#6f562f}
+.oc-eye svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.oc-submit{
+  width:100%;min-height:46px;margin-top:17px;
+  border:1px solid rgba(198,161,93,.62);
+  border-radius:13px;
+  background:linear-gradient(135deg,#10221a,#1b3328);
+  color:#e6c983;
+  font-size:10px;font-weight:900;
+  transition:transform .18s,box-shadow .18s,border-color .18s;
+}
+.oc-submit:hover{transform:translateY(-1px);box-shadow:0 13px 28px rgba(16,34,26,.17);border-color:#d5b36e}
+.oc-note{
+  margin-top:12px;padding:10px 11px;
+  border-left:2px solid #c6a15d;border-radius:0 9px 9px 0;
+  background:#f5efe4;color:#736b60;font-size:8px;line-height:1.6;
+}
+.oc-error{margin-top:10px;color:#944138;font-size:9px}
+.oc-footer{margin-top:16px;text-align:center;color:#aaa299;font-size:8px}
+.oc-footer strong{color:#806536}
+.general-top{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:14px;
+  margin:8px 0 16px;
+}
+.general-top h1{margin:5px 0 0;font:500 31px Georgia,serif;letter-spacing:-.03em}
+.general-top p{margin:7px 0 0;color:#7c776e;font-size:10px}
+.business-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.business-card{
+  position:relative;
+  min-height:265px;
+  padding:20px;
+  border-radius:22px;
+  border:1px solid var(--line);
+  background:#fffdfa;
+  box-shadow:0 14px 32px rgba(27,39,32,.06);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.business-card:before{
+  content:"";
+  position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,#c6a15d,transparent 72%);
+}
+.business-card.active{
+  border-color:#d0b47a;
+  background:linear-gradient(145deg,#fffdfa,#f8f2e5);
+}
+.business-card.inactive{opacity:.82}
+.business-icon{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  border-radius:15px;
+  margin-bottom:17px;
+  background:#0d1c16;
+  color:#e1c37d;
+  font-size:21px;
+}
+.business-card.inactive .business-icon{background:#efebe4;color:#918a7f}
+.business-card h2{margin:0;font:500 24px Georgia,serif}
+.business-card p{margin:7px 0 0;color:#807a71;font-size:9px;line-height:1.6}
+.business-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:7px;
+  margin-top:auto;padding-top:18px;
+}
+.business-status{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 9px;border-radius:999px;
+  background:#e8f1ea;color:#426b50;
+  font-size:7px;font-weight:900;text-transform:uppercase;
+}
+.business-status.pending{background:#eeeae3;color:#756e64}
+.business-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.business-enter{
+  border:1px solid #b5965b;background:#0a0a09;color:#e1c37d;
+  border-radius:11px;padding:9px 11px;font-size:8px;font-weight:900;
+}
+.general-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:0 0 14px;
+}
+.general-stat{padding:13px 14px;border:1px solid var(--line);background:#fffdfa;border-radius:15px}
+.general-stat small{display:block;color:#8a847a;font-size:7px;letter-spacing:.11em;text-transform:uppercase;font-weight:900}
+.general-stat strong{display:block;margin-top:7px;font:500 23px Georgia,serif}
+.general-stat span{display:block;margin-top:3px;color:#898279;font-size:8px}
+.context-switch{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 8px;border:1px solid rgba(198,161,93,.4);
+  background:#fbf7ee;border-radius:12px;
+}
+.context-switch .property-symbol{width:24px;height:24px}
+.context-switch button{border:0;background:transparent;font-size:8px;font-weight:900;color:#70582f;padding:5px 6px;border-radius:8px}
+.context-switch button:hover{background:#f0e5d2}
+.oc-locked{
+  max-width:700px;
+  margin:28px auto;
+  padding:30px;
+  text-align:center;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:#fffdfa;
+}
+.oc-locked h2{margin:5px 0 8px;font:500 23px Georgia,serif}
+.oc-locked p{margin:0;color:#7f796f;font-size:10px;line-height:1.65}
+@keyframes ocLetterIn{
+  0%{opacity:0;transform:translateY(28px) scale(.94);filter:blur(4px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes ocFadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes ocLineIn{to{opacity:1;transform:scaleX(1)}}
+@media(max-width:1000px){.business-grid{grid-template-columns:1fr}.business-card{min-height:220px}.general-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+  .oc-auth-stage{width:min(500px,calc(100% - 24px))}
+  .oc-auth-card{padding:21px}
+  .oc-login-brand .brand-word{font-size:31px}
+  .general-top{display:block}
+  .business-grid{grid-template-columns:1fr}
+  .business-card{min-height:205px;padding:18px}
+  .general-strip{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .oc-splash-word span,.oc-splash-sub,.oc-splash-line{animation:none!important;opacity:1;transform:none;filter:none}
+  .btn,.business-card{transition:none}
+}
