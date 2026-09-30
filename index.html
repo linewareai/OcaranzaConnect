@@ -132,7 +132,7 @@
     }else if(view==='account'){
       var token=getGuestToken();
       if(!token){
-        html+='<main class="app-module account-module"><span class="eyebrow dark">HUÉSPED</span><h1>Mi cuenta</h1><p class="module-lead">Ingresa con el usuario y la clave que te entregó recepción.</p><form id="guest-login-form" class="account-form"><label>Usuario<input name="username" autocomplete="username" required minlength="3" placeholder="Ej. habitacion204"></label><label>Clave<input name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="Tu clave"></label><button type="submit" class="contact-main">Ingresar</button><p id="guest-login-error" class="form-error" hidden></p></form></main>';
+        html+='<main class="app-module account-module"><span class="eyebrow dark">HUÉSPED</span><h1>Mi cuenta</h1><p class="module-lead">Ingresa con tu usuario y clave. Si eres recepción, utiliza el usuario <strong>Admin</strong> y accederás automáticamente al panel administrativo.</p><form id="guest-login-form" class="account-form"><label>Usuario<input name="username" autocomplete="username" required minlength="3" placeholder="Ej. habitacion204"></label><label>Clave<input name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="Tu clave"></label><button type="submit" class="contact-main">Ingresar</button><p id="guest-login-error" class="form-error" hidden></p></form></main>';
       }else{
         html+='<main class="app-module account-module"><div id="guest-account-state"><span class="eyebrow dark">HUÉSPED</span><h1>Mi cuenta</h1><p class="module-lead">Cargando tu cuenta...</p></div></main>';
       }
@@ -153,7 +153,31 @@
       ev.preventDefault();
       var btn=form.querySelector('button[type="submit"]'),err=document.getElementById('guest-login-error');
       btn.disabled=true;btn.textContent='Ingresando...';if(err)err.hidden=true;
-      guestRequest('guest-login',{username:form.username.value,password:form.password.value},'',function(status,data){
+      var username=form.username.value.trim(),password=form.password.value;
+      if(username.toLowerCase()==='admin'){
+        guestRequest('login',{username:'Admin',password:password},'',function(status,data){
+          if(status>=200&&status<300&&data.session){
+            try{localStorage.setItem('oc_admin_token',data.session.access_token);}catch(e){}
+            window.location.href='/admin.html';
+            return;
+          }
+          if(status===401){
+            guestRequest('signup',{email:'admin@ocaranzaconnect.app',username:'Admin',password:password},'',function(createStatus,createData){
+              if(createStatus>=200&&createStatus<300&&createData.session){
+                try{localStorage.setItem('oc_admin_token',createData.session.access_token);}catch(e){}
+                window.location.href='/admin.html';
+                return;
+              }
+              btn.disabled=false;btn.textContent='Ingresar';
+              if(err){err.textContent=createStatus===409?'El administrador ya está activado. Revisa la contraseña.':(createData.error||'No pudimos activar la cuenta administrativa.');err.hidden=false;}
+            });
+            return;
+          }
+          btn.disabled=false;btn.textContent='Ingresar';if(err){err.textContent=data.error||'No pudimos iniciar sesión.';err.hidden=false;}
+        });
+        return;
+      }
+      guestRequest('guest-login',{username:username,password:password},'',function(status,data){
         if(status>=200&&status<300&&data.session){
           try{localStorage.setItem('oc_guest_token',data.session.access_token);}catch(e){}
           render(window.__ocar_data);
