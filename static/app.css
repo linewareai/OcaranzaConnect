@@ -200,3 +200,5 @@ a:active,button:active,.quick-card.is-pressed,.tour-card.is-pressed,.is-pressed{
  .tour-card:active{box-shadow:0 8px 22px rgba(20,33,27,.13)}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal-on-scroll{opacity:1;transform:none}}
+
+.oc-logo-tv{color:#f6f0e7;text-shadow:0 3px 18px rgba(0,0,0,.22)}.oc-logo-tv .oc-logo-h{font-size:68px}.oc-logo-tv .oc-logo-word{font-size:10px}@media(max-width:760px){.oc-logo-tv .oc-logo-h{font-size:48px}.oc-logo-tv .oc-logo-word{font-size:7px}}
