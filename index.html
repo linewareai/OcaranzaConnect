@@ -7,7 +7,7 @@
 </head>
 <body class="portal-page">
 <div id="app" class="guest-app">
-  <div class="splash-loading" aria-label="Hotel Ocaranza"><div class="oc-logo oc-logo-splash"><span class="oc-logo-h">H</span><span class="oc-logo-word">GARANZA</span></div></div>
+  <div class="splash-loading" aria-label="Hotel Ocaranza"><div class="oc-logo oc-logo-splash"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></div></div>
 </div>
 <script>
 (function(){
@@ -18,11 +18,11 @@
   xhr.onreadystatechange=function(){
     if(xhr.readyState!==4)return;
     if(xhr.status<200||xhr.status>=300){
-      app.innerHTML='<div class="error-state"><div class="oc-logo oc-logo-error"><span class="oc-logo-h">H</span><span class="oc-logo-word">GARANZA</span></div><h1>No pudimos cargar la información</h1><p>Inténtalo nuevamente.</p><button onclick="location.reload()">Reintentar</button></div>';
+      app.innerHTML='<div class="error-state"><div class="oc-logo oc-logo-error"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></div><h1>No pudimos cargar la información</h1><p>Inténtalo nuevamente.</p><button onclick="location.reload()">Reintentar</button></div>';
       return;
     }
     try{render(JSON.parse(xhr.responseText));}
-    catch(e){app.innerHTML='<div class="error-state"><div class="oc-logo oc-logo-error"><span class="oc-logo-h">H</span><span class="oc-logo-word">GARANZA</span></div><h1>Error de carga</h1><p>Inténtalo nuevamente.</p><button onclick="location.reload()">Reintentar</button></div>';}
+    catch(e){app.innerHTML='<div class="error-state"><div class="oc-logo oc-logo-error"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></div><h1>Error de carga</h1><p>Inténtalo nuevamente.</p><button onclick="location.reload()">Reintentar</button></div>';}
   };
   xhr.send();
 
@@ -71,7 +71,7 @@
     var nav='<a href="#inicio">Inicio</a><a href="#hotel">Habitaciones</a><a href="#tours">Tours</a><a href="#services">Servicios</a><a href="#more">Más</a>';
 
     app.innerHTML=
-      '<header class="site-header"><div class="site-header-inner"><a class="brand" href="#inicio" aria-label="Ocaranza"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">GARANZA</span></span></a><nav>'+nav+'</nav><div class="header-actions"><button class="lang-pill">🇨🇱 ES⌄</button><button class="menu-toggle" aria-label="Menú">☰</button></div></div></header>'+
+      '<header class="site-header"><div class="site-header-inner"><a class="brand" href="#inicio" aria-label="Ocaranza"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span></a><nav>'+nav+'</nav><div class="header-actions"><button class="lang-pill">🇨🇱 ES⌄</button><button class="menu-toggle" aria-label="Menú">☰</button></div></div></header>'+
       '<main id="inicio">'+
       '<section class="hero-home">'+
         '<div class="hero-image" style="background-image:url(\''+h(hero).replace(/'/g,"%27")+'\')"></div>'+
@@ -90,7 +90,7 @@
       '<section id="hotel" class="info-section"><div class="info-head"><span class="eyebrow dark">INFORMACIÓN ÚTIL</span><h2>Todo listo para tu estadía</h2></div><div class="info-grid-modern"><div><span class="info-icon">☕</span><small>Desayuno</small><strong>'+h(hotel.breakfast_hours||'07:30 AM – 10:00 AM')+'</strong></div><div><span class="info-icon">↔</span><small>Check-in</small><strong>'+h(hotel.checkin||'15:00')+'</strong></div><div><span class="info-icon">↲</span><small>Check-out</small><strong>'+h(hotel.checkout||'12:00')+'</strong></div><div><span class="info-icon">⌖</span><small>Dirección</small><strong>'+h(hotel.address||'Santiago, Chile')+'</strong></div></div></section>'+
       '<section id="services" class="services-section"><div class="service-card"><div><span class="eyebrow dark">AYUDA</span><h2>¿Necesitas algo?</h2><p>Estamos para ayudarte durante toda tu estadía.</p></div><a class="dark-cta" href="'+h(contact)+'">Contactar recepción ↗</a></div></section>'+
       '</main>'+
-      '<footer id="more" class="footer-modern"><div><span class="oc-logo oc-logo-footer"><span class="oc-logo-h">H</span><span class="oc-logo-word">GARANZA</span></span><p>'+h(hotel.subtitle||'Tu punto de encuentro en Santiago')+'</p></div><div><strong>Hotel</strong><a href="#hotel">Información útil</a><a href="#tours">Tours</a><a href="#services">Servicios</a></div><div><strong>Contacto</strong><span>'+h(hotel.phone||'')+'</span><span>'+h(hotel.address||'')+'</span></div></footer>';
+      '<footer id="more" class="footer-modern"><div><span class="oc-logo oc-logo-footer"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span><p>'+h(hotel.subtitle||'Tu punto de encuentro en Santiago')+'</p></div><div><strong>Hotel</strong><a href="#hotel">Información útil</a><a href="#tours">Tours</a><a href="#services">Servicios</a></div><div><strong>Contacto</strong><span>'+h(hotel.phone||'')+'</span><span>'+h(hotel.address||'')+'</span></div></footer>';
   }
 }
   function initInteractions(){
