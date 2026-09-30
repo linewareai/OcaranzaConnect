@@ -42,7 +42,7 @@
     track('visit');if(source)track('qr_scan');
     var hotel=Array.isArray(d.hotel)?(d.hotel[0]||{}):(d.hotel||{});
     var tours=d.tours||[],promos=d.promotions||[],sections=d.sections||[];
-    var hero=hotel.hero_image_url||'';
+    var hero='/static/images/fondo1.jpg';
     var promo=promos[0]||{};
     var tourImg=(tours[0]&&tours[0].image_url)||hero;
     var whatsapp=(hotel.whatsapp||'').replace(/[^0-9]/g,'');
