@@ -544,6 +544,148 @@ a:active,button:active,.quick-card.is-pressed,.tour-card.is-pressed,.is-pressed{
   .access-choice-overlay,.access-choice-card{animation:none;opacity:1;visibility:visible;pointer-events:auto;transform:none}
 }
 
+
+/* Detalles premium para las vistas de la app */
+.app-header{
+  background:rgba(250,248,243,.96);
+  border-bottom:1px solid rgba(178,154,114,.24);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 8px 24px rgba(23,38,31,.035);
+}
+.app-header:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:1px;
+  background:linear-gradient(90deg,transparent 5%,rgba(178,154,114,.55) 50%,transparent 95%);
+  pointer-events:none;
+}
+.app-header .oc-logo-header{color:var(--ink)}
+.app-header .oc-logo-header .oc-logo-h{font-weight:400}
+.app-module{
+  position:relative;
+}
+.app-module:before{
+  content:"";
+  position:absolute;
+  top:18px;
+  left:20px;
+  width:38px;
+  height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:.8;
+}
+.app-module>h1{
+  letter-spacing:-.035em;
+}
+.app-module>h1:after{
+  content:"";
+  display:block;
+  width:42px;
+  height:2px;
+  margin-top:14px;
+  border-radius:99px;
+  background:var(--gold);
+}
+.detail-card,.compact-tour,.service-action,.contact-data>div,.guest-account-top>div{
+  position:relative;
+  overflow:hidden;
+}
+.detail-card:before,.compact-tour:before,.service-action:before,.contact-data>div:before,.guest-account-top>div:before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg,rgba(178,154,114,.75),transparent 75%);
+  opacity:.65;
+}
+.detail-card:hover,.compact-tour:hover,.service-action:hover,.contact-data>div:hover{
+  border-color:rgba(178,154,114,.55);
+  box-shadow:0 16px 34px rgba(23,38,31,.08);
+}
+.feature-module{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 92% 8%,rgba(178,154,114,.18),transparent 26%),
+    linear-gradient(135deg,#f3ecdf,#fff);
+  box-shadow:0 14px 36px rgba(23,38,31,.06);
+}
+.feature-module:after{
+  content:"";
+  position:absolute;
+  right:-46px;
+  bottom:-46px;
+  width:150px;
+  height:150px;
+  border:1px solid rgba(178,154,114,.18);
+  border-radius:50%;
+}
+.module-note{
+  border:1px solid rgba(178,154,114,.18);
+  border-left:2px solid var(--gold);
+  background:linear-gradient(90deg,#f2eadc,#f8f5ef);
+}
+.account-module{
+  padding-top:42px;
+}
+.account-form{
+  position:relative;
+  max-width:500px;
+  margin-top:30px;
+  padding:28px;
+  border:1px solid rgba(178,154,114,.34);
+  border-radius:24px;
+  background:linear-gradient(145deg,#fff,#fbf8f1);
+  box-shadow:0 20px 48px rgba(23,38,31,.09);
+}
+.account-form:before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  left:28px;
+  width:88px;
+  height:2px;
+  background:var(--gold);
+  border-radius:99px;
+}
+.account-form button[type="submit"],.contact-main,.wide-action{
+  background:linear-gradient(135deg,#0e1d17,#162c23);
+  border:1px solid rgba(178,154,114,.55);
+  box-shadow:0 10px 24px rgba(18,34,28,.16),inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.account-form button[type="submit"]:hover,.contact-main:hover,.wide-action:hover{
+  transform:translateY(-2px);
+  border-color:var(--gold);
+  box-shadow:0 14px 30px rgba(18,34,28,.2);
+}
+.guest-benefit-box{
+  background:linear-gradient(145deg,#f4e7cd,#fbf8f1)!important;
+  border-color:rgba(178,154,114,.5)!important;
+}
+.guest-benefit-box strong{
+  color:#806536!important;
+}
+.guest-benefit-box small{
+  color:#81796f;
+  font-size:10px;
+}
+.guest-orders{
+  padding:20px 20px 8px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:#fff;
+}
+.guest-order:last-child{border-bottom:0}
+.section-head{
+  padding-bottom:13px;
+  border-bottom:1px solid rgba(178,154,114,.2);
+}
+.guest-order b{color:#806536}
 .account-chip{margin-left:auto;border:1px solid rgba(218,182,105,.55);background:#0b0b0b;color:#dcb86d;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:800;letter-spacing:.03em;cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease}.account-chip:hover{background:#dcb86d;color:#0b0b0b;transform:translateY(-1px)}
 .account-form{max-width:460px;margin-top:26px;padding:22px;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 14px 35px rgba(23,38,31,.07);display:flex;flex-direction:column;gap:16px}.account-form label{display:flex;flex-direction:column;gap:7px;color:var(--ink);font-size:12px;font-weight:800}.account-form input{border:1px solid #d8d0c3;border-radius:13px;padding:13px 14px;background:#faf8f4;color:var(--ink);font:inherit;outline:none}.account-form input:focus{border-color:#c8a45f;box-shadow:0 0 0 3px rgba(200,164,95,.12)}.account-form button:disabled{opacity:.6;cursor:wait}.form-error{margin:0;padding:11px 13px;border-radius:12px;background:#f7e8e5;color:#8d3328;font-size:12px}.guest-account-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:24px}.guest-account-top>div{padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff;display:flex;flex-direction:column;gap:6px}.guest-account-top span{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.guest-account-top strong{font-size:21px;color:var(--ink)}.guest-orders{margin-top:26px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.section-head h2{margin:0;color:var(--ink);font-size:20px}.section-head button{border:0;background:none;color:#8f3329;font-weight:800;font-size:11px;cursor:pointer}.guest-order{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:17px 0;border-bottom:1px solid var(--line)}.guest-order strong{display:block;color:var(--ink);font-size:14px}.guest-order small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.guest-order b{color:var(--ink);font-size:14px}
 @media(max-width:760px){.account-chip{padding:7px 9px;font-size:10px}.guest-account-top{grid-template-columns:1fr}.app-header-title{max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
