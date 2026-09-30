@@ -766,6 +766,89 @@
   .platform-mark{width:30px;height:30px}
   .platform-brand-copy strong{font-size:12px}
 }
+
+.splash-platform{
+  margin:0 auto 30px;
+  opacity:1;
+}
+.splash-platform .platform-wordline{
+  display:flex;
+  justify-content:center;
+  overflow:hidden;
+  color:#18251f;
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-.055em;
+}
+.splash-platform .platform-wordline span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(18px) scale(.94);
+  animation:platformLetterIn .42s cubic-bezier(.16,1,.3,1) forwards;
+}
+.splash-platform .platform-wordline span:nth-child(1){animation-delay:.12s}
+.splash-platform .platform-wordline span:nth-child(2){animation-delay:.18s}
+.splash-platform .platform-wordline span:nth-child(3){animation-delay:.24s}
+.splash-platform .platform-wordline span:nth-child(4){animation-delay:.30s}
+.splash-platform .platform-wordline span:nth-child(5){animation-delay:.36s}
+.splash-platform .platform-wordline span:nth-child(6){animation-delay:.42s}
+.splash-platform .platform-wordline span:nth-child(7){animation-delay:.48s}
+.splash-platform .platform-wordline span:nth-child(8){animation-delay:.54s}
+.splash-platform .platform-wordline span:nth-child(9){animation-delay:.60s}
+.splash-platform .platform-wordline span:nth-child(10){animation-delay:.66s}
+.splash-platform small{
+  display:block;
+  margin-top:7px;
+  color:#a07d43;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.21em;
+  text-transform:uppercase;
+  opacity:0;
+  animation:authFadeUp .7s 1.00s forwards;
+}
+.auth-splash .property-mark{
+  width:88px;
+  height:88px;
+  margin-bottom:10px;
+  animation-delay:1.12s;
+}
+.auth-splash .property-mark .auth-h{font-size:41px}
+.auth-splash .property-mark .auth-word{font-size:5px}
+.auth-propertyline{
+  display:flex;
+  justify-content:center;
+  color:#806536;
+  font:500 18px Georgia,"Times New Roman",serif;
+  letter-spacing:.02em;
+}
+.auth-propertyline span{
+  opacity:0;
+  transform:translateY(9px);
+  animation:authLetterIn .36s cubic-bezier(.16,1,.3,1) 1.55s forwards;
+}
+.auth-propertyline span:nth-child(2){animation-delay:1.60s}
+.auth-propertyline span:nth-child(3){animation-delay:1.65s}
+.auth-propertyline span:nth-child(4){animation-delay:1.70s}
+.auth-propertyline span:nth-child(5){animation-delay:1.75s}
+.auth-propertyline span:nth-child(6){animation-delay:1.80s}
+.auth-propertyline span:nth-child(7){animation-delay:1.85s}
+.auth-propertyline span:nth-child(8){animation-delay:1.90s}
+.auth-propertyline span:nth-child(9){animation-delay:1.95s}
+.auth-propertyline span:nth-child(10){animation-delay:2.00s}
+.auth-splash .auth-welcome{
+  margin-top:24px;
+  animation-delay:2.15s;
+}
+@keyframes platformLetterIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:600px){
+  .splash-platform .platform-wordline{font-size:26px}
+  .auth-splash .property-mark{width:78px;height:78px}
+  .auth-propertyline{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  .splash-platform .platform-wordline span,.auth-propertyline span{animation:none!important;opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
@@ -787,7 +870,7 @@ function modal(title,body,k){document.getElementById('mk').textContent=k||'PMS';
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 document.getElementById('mc').onclick=closeModal;document.getElementById('modal').onclick=function(e){if(e.target===this)closeModal()}
 function welcomeSplash(done){
- app.innerHTML='<main class="auth-screen auth-splash"><div class="auth-stage"><div class="auth-mark"><span class="auth-h">H</span><span class="auth-word">OCARANZA</span></div><div class="auth-wordline">'+('OCARANZA CONNECT').split('').map(function(ch){return '<span>'+ (ch===' ' ? '&nbsp;' : esc(ch)) +'</span>'}).join('')+'</div><div class="auth-welcome">Bienvenido</div><div class="auth-ornament"></div></div></main>';
+ app.innerHTML='<main class="auth-screen auth-splash"><div class="auth-stage"><div class="auth-platform splash-platform"><div class="platform-wordline">'+('LinewareAI').split('').map(function(ch){return '<span>'+esc(ch)+'</span>'}).join('')+'</div><small>Hospitality Platform</small></div><div class="auth-mark property-mark"><span class="auth-h">H</span><span class="auth-word">OCARANZA</span></div><div class="auth-propertyline">'+('H Ocaranza').split('').map(function(ch){return '<span>'+ (ch===' ' ? '&nbsp;' : esc(ch)) +'</span>'}).join('')+'</div><div class="auth-welcome">Bienvenido</div><div class="auth-ornament"></div></div></main>';
  var delay=3200;
  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)delay=450;
  setTimeout(done,delay);
