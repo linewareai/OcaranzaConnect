@@ -27,6 +27,11 @@
     catch(e){app.innerHTML='<div class="error-state"><div class="oc-logo oc-logo-error"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></div><h1>Error de carga</h1><p>Inténtalo nuevamente.</p><button onclick="location.reload()">Reintentar</button></div>';}
   };
   xhr.send();
+  setTimeout(function(){
+    if(xhr.readyState!==4){
+      app.innerHTML='<div class="error-state"><div class="oc-logo oc-logo-error"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></div><h1>Estamos preparando tu estadía</h1><p>La conexión está tardando más de lo esperado.</p><button onclick="location.reload()">Reintentar</button></div>';
+    }
+  },10000);
 
   function h(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
   function track(type,tour){
