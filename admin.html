@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909"><title>OcaranzaConnect · Administración</title>
+<link rel="stylesheet" href="/static/app.css">
+<style>
+body.admin-page{background:#f5f1e9;color:#171714}.admin-shell{max-width:1180px;margin:0 auto;padding:28px 18px 60px}.admin-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.admin-brand{display:flex;align-items:center;gap:12px}.admin-brand .oc-logo-h{font-size:38px}.admin-brand .oc-logo-word{font-size:6px}.admin-top h1{margin:0;font-size:22px}.admin-actions button,.admin-card button{border:1px solid #b99652;background:#0a0a0a;color:#e1bd72;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer}.admin-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px}.admin-card{background:#fff;border:1px solid #ddd4c5;border-radius:22px;padding:22px;box-shadow:0 12px 30px rgba(23,38,31,.06)}.admin-card h2{margin:0 0 7px;font-size:19px}.admin-card>p{margin:0 0 18px;color:#777;font-size:13px;line-height:1.5}.admin-form{display:flex;flex-direction:column;gap:12px}.admin-form label{font-size:11px;font-weight:800;display:flex;flex-direction:column;gap:6px}.admin-form input{border:1px solid #d6cec0;border-radius:11px;padding:11px 12px;font:inherit;background:#faf8f4}.admin-form button{margin-top:4px}.admin-error{color:#8e332a;background:#f7e8e5;padding:10px;border-radius:10px;font-size:12px}.admin-ok{color:#315f42;background:#e8f1ea;padding:10px;border-radius:10px;font-size:12px}.order-list{display:flex;flex-direction:column}.order-row{display:grid;grid-template-columns:1.1fr .8fr .7fr .65fr;gap:12px;padding:15px 0;border-bottom:1px solid #e6dfd4;align-items:center}.order-row strong{font-size:13px}.order-row small{display:block;color:#858078;font-size:11px;margin-top:4px}.order-row b{font-size:13px}.status{justify-self:start;padding:6px 9px;border-radius:999px;background:#f1eadf;color:#806536;font-size:10px;font-weight:800;text-transform:uppercase}.empty{padding:30px 0;color:#777;font-size:13px}@media(max-width:800px){.admin-grid{grid-template-columns:1fr}.order-row{grid-template-columns:1fr 1fr}.status{justify-self:start}}
+</style>
+</head>
+<body class="admin-page">
+<div id="admin-app"></div>
+<script>
+(function(){
+var API='https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-auth',app=document.getElementById('admin-app');
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function token(){try{return localStorage.getItem('oc_admin_token')||''}catch(e){return''}}
+function save(t){try{localStorage.setItem('oc_admin_token',t)}catch(e){}}
+function clear(){try{localStorage.removeItem('oc_admin_token')}catch(e){}}
+function req(path,body,done){
+ var x=new XMLHttpRequest();x.open('POST',API+'/'+path,true);x.setRequestHeader('Content-Type','application/json');
+ if(token())x.setRequestHeader('Authorization','Bearer '+token());
+ x.onreadystatechange=function(){if(x.readyState!==4)return;var d={};try{d=JSON.parse(x.responseText||'{}')}catch(e){}done(x.status,d)};x.send(JSON.stringify(body||{}));
+}
+function health(done){var x=new XMLHttpRequest();x.open('GET',API+'/health',true);x.onreadystatechange=function(){if(x.readyState!==4)return;var d={};try{d=JSON.parse(x.responseText||'{}')}catch(e){}done(x.status,d)};x.send()}
+function shell(body){
+ app.innerHTML='<div class="admin-shell"><header class="admin-top"><div class="admin-brand"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span><h1>OcaranzaConnect · Administración</h1></div><div class="admin-actions"><button id="logout">Cerrar sesión</button></div></header>'+body+'</div>';
+ var l=document.getElementById('logout');if(l)l.onclick=function(){clear();render()};
+}
+function render(){
+ if(token()){dashboard();return}
+ health(function(status,data){
+  if(data.adminExists)login();
+  else setup();
+ });
+}
+function setup(){
+ shell('<div class="admin-card" style="max-width:460px;margin:60px auto"><h2>Crear administrador</h2><p>Este será el acceso privado para gestionar huéspedes, pedidos y el contenido operativo del portal.</p><form id="setup" class="admin-form"><label>Correo<input name="email" type="email" required></label><label>Contraseña<input name="password" type="password" minlength="8" required></label><button>Crear administrador</button><div id="msg"></div></form></div>');
+ document.getElementById('setup').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('msg');b.disabled=true;req('signup',{email:f.email.value,password:f.password.value},function(s,d){if(s>=200&&s<300&&d.session){save(d.session.access_token);dashboard()}else{b.disabled=false;m.className='admin-error';m.textContent=d.error||'No se pudo crear el administrador.'}})}
+}
+function login(){
+ shell('<div class="admin-card" style="max-width:460px;margin:60px auto"><h2>Acceso administrativo</h2><p>Ingresa para gestionar huéspedes y pedidos.</p><form id="login" class="admin-form"><label>Correo<input name="email" type="email" required></label><label>Contraseña<input name="password" type="password" required></label><button>Ingresar</button><div id="msg"></div></form></div>');
+ document.getElementById('login').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('msg');b.disabled=true;req('login',{email:f.email.value,password:f.password.value},function(s,d){if(s>=200&&s<300&&d.session){save(d.session.access_token);dashboard()}else{b.disabled=false;m.className='admin-error';m.textContent=d.error||'No se pudo iniciar sesión.'}})}
+}
+function dashboard(){
+ shell('<div class="admin-grid"><section class="admin-card"><h2>Nuevo huésped</h2><p>Crea las credenciales que recepción entregará al huésped.</p><form id="guest" class="admin-form"><label>Nombre completo<input name="display_name" required></label><label>Usuario<input name="username" pattern="[A-Za-z0-9._-]{3,32}" required></label><label>Clave<input name="password" minlength="6" required></label><label>Habitación<input name="room_number" required></label><label>Check-in<input name="check_in" type="date"></label><label>Check-out<input name="check_out" type="date"></label><button>Crear cuenta</button><div id="guest-msg"></div></form></section><section class="admin-card"><h2>Pedidos de huéspedes</h2><p>Vista operativa de solicitudes y consumos registrados en el portal.</p><div id="orders" class="order-list">Cargando...</div></section></div>');
+ document.getElementById('guest').onsubmit=function(e){e.preventDefault();var f=e.target,b=f.querySelector('button'),m=document.getElementById('guest-msg');b.disabled=true;var body={display_name:f.display_name.value,username:f.username.value,password:f.password.value,room_number:f.room_number.value,check_in:f.check_in.value||null,check_out:f.check_out.value||null};req('guest-create',body,function(s,d){b.disabled=false;m.className=s>=200&&s<300?'admin-ok':'admin-error';m.textContent=s>=200&&s<300?'Cuenta creada: '+d.profile.username:(d.error||'No se pudo crear la cuenta.');if(s>=200&&s<300)f.reset();})};
+ loadOrders();
+}
+function loadOrders(){req('admin-orders',{},function(s,d){var box=document.getElementById('orders');if(!box)return;if(s<200||s>=300){box.innerHTML='<div class="admin-error">'+esc(d.error||'No se pudieron cargar los pedidos.')+'</div>';return}var rows=d.orders||[];if(!rows.length){box.innerHTML='<div class="empty">Todavía no hay pedidos.</div>';return}var out='';for(var i=0;i<rows.length;i++){var o=rows[i],g=o.oc_guest_profiles||{};out+='<div class="order-row"><div><strong>'+esc(o.item_name)+'</strong><small>'+esc(g.display_name||g.username||'Huésped')+' · Hab. '+esc(g.room_number)+'</small></div><div><small>'+esc(o.source)+'</small><b>'+o.quantity+' × $'+Number(o.unit_price||0).toLocaleString('es-CL')+'</b></div><b>$'+Number(o.total||0).toLocaleString('es-CL')+'</b><span class="status">'+esc(o.status)+'</span></div>'}box.innerHTML=out})}
+render();
+})();
+</script>
+</body>
+</html>
