@@ -11,7 +11,9 @@
 </div>
 <script>
 (function(){
-  var source=(new URLSearchParams(window.location.search)).get('source')||'';
+  var params=new URLSearchParams(window.location.search);
+  var source=params.get('source')||'';
+  var view=params.get('view')||'home';
   var app=document.getElementById('app');
   var xhr=new XMLHttpRequest();
   xhr.open('GET','https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-public',true);
@@ -27,78 +29,100 @@
   xhr.send();
 
   function h(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function track(type,tour){var x=new XMLHttpRequest();x.open('POST','https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-public',true);x.setRequestHeader('Content-Type','application/json');x.send(JSON.stringify({event_type:type,source:source,path:location.pathname,tour_id:tour||null}));}
+  function track(type,tour){
+    var x=new XMLHttpRequest();
+    x.open('POST','https://qdwkmfgjpowsrcpbowdc.supabase.co/functions/v1/oc-public',true);
+    x.setRequestHeader('Content-Type','application/json');
+    x.send(JSON.stringify({event_type:type,source:source,path:location.pathname+location.search,tour_id:tour||null}));
+  }
+  function go(v){
+    var url='/?view='+encodeURIComponent(v)+(source?'&source='+encodeURIComponent(source):'');
+    history.pushState({view:v},'',url);
+    view=v;
+    window.scrollTo(0,0);
+    render(window.__ocar_data);
+  }
+  window.onpopstate=function(){params=new URLSearchParams(window.location.search);view=params.get('view')||'home';render(window.__ocar_data);};
+
   function icon(kind){
     var s='<svg viewBox="0 0 48 48" aria-hidden="true">';
-    if(kind==='bed')s+='<path d="M7 31V18c0-3 2-5 5-5h11c3 0 5 2 5 5v4h5c5 0 8 3 8 8v7H7z"/><path d="M7 31h34M12 31v6M36 31v6M28 18h5M12 21h16"/>';
-    else if(kind==='cup')s+='<path d="M8 17h25v10c0 7-5 11-13 11S8 34 8 27zM33 20h4c4 0 6 2 6 6s-2 6-6 6h-4"/><path d="M16 9v5M23 7v7M30 9v5M12 42h22"/>';
-    else if(kind==='pin')s+='<path d="M24 43s13-11 13-23a13 13 0 1 0-26 0c0 12 13 23 13 23z"/><circle cx="24" cy="20" r="4"/><path d="M36 39h7V28l-8-3-8 4-8-4-8 3v11h8"/>';
-    else if(kind==='bell')s+='<path d="M12 35h24M15 35V22a9 9 0 0 1 18 0v13M18 41h12"/><path d="M24 11V7"/>';
-    else if(kind==='help')s+='<circle cx="24" cy="24" r="17"/><path d="M19 18a5 5 0 0 1 10 2c0 4-5 4-5 8M24 34h.01"/>';
-    else s+='<path d="M14 7h20v34H14zM19 12h10M19 18h10M19 24h10M19 30h6"/>';
+    if(kind==='hotel')s+='<path d="M9 40V9h30v31M15 15h6v6h-6zM27 15h6v6h-6zM15 27h6v6h-6zM27 27h6v6h-6z"/>';
+    else if(kind==='cup')s+='<path d="M8 17h25v10c0 7-5 11-13 11S8 34 8 27zM33 20h4c4 0 6 2 6 6s-2 6-6 6h-4M12 42h22"/><path d="M16 9v5M23 7v7M30 9v5"/>';
+    else if(kind==='pin')s+='<path d="M24 43s13-11 13-23a13 13 0 1 0-26 0c0 12 13 23 13 23z"/><circle cx="24" cy="20" r="4"/>';
+    else if(kind==='bell')s+='<path d="M12 35h24M15 35V22a9 9 0 0 1 18 0v13M18 41h12M24 11V7"/>';
+    else if(kind==='city')s+='<path d="M8 40V21h10v19M18 40V10h12v30M30 40V17h10v23M5 40h38"/>';
+    else s+='<circle cx="24" cy="24" r="17"/><path d="M16 20a8 8 0 0 1 16 0c0 7-8 6-8 12M24 36h.01"/>';
     return s+'</svg>';
   }
+  function nav(current){
+    var items=[
+      ['home','Inicio','home'],['hotel','Hotel','hotel'],['breakfast','Desayuno','cup'],
+      ['tours','Tours','pin'],['services','Servicios','bell'],['contact','Contacto','help']
+    ];
+    var out='<nav class="app-nav">';
+    for(var i=0;i<items.length;i++){
+      var it=items[i],active=current===it[0]?' is-active':'';
+      out+='<button class="app-nav-item'+active+'" data-view="'+it[0]+'"><span>'+icon(it[2])+'</span><small>'+it[1]+'</small></button>';
+    }
+    return out+'</nav>';
+  }
+  function header(hotel,current){
+    return '<header class="app-header"><button class="app-brand" data-view="home" aria-label="Inicio"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span></button><span class="app-header-title">'+h(current==='home'?'Tu estadía':label(current))+'</span></header>';
+  }
+  function label(v){return ({hotel:'Hotel',breakfast:'Desayuno',tours:'Tours',services:'Servicios y pedidos',contact:'Contacto'})[v]||'Tu estadía';}
+  function card(v,kind,title,desc){
+    return '<button class="app-module-card" data-view="'+v+'"><span class="module-icon">'+icon(kind)+'</span><span class="module-copy"><strong>'+title+'</strong><small>'+desc+'</small></span><span class="module-arrow">›</span></button>';
+  }
   function render(d){
+    window.__ocar_data=d;
     track('visit');if(source)track('qr_scan');
     var hotel=Array.isArray(d.hotel)?(d.hotel[0]||{}):(d.hotel||{});
-    var tours=d.tours||[],promos=d.promotions||[],sections=d.sections||[];
-    var hero='/static/images/fondo1.jpg';
-    var promo=promos[0]||{};
-    var tourImg=(tours[0]&&tours[0].image_url)||hero;
-    var whatsapp=(hotel.whatsapp||'').replace(/[^0-9]/g,'');
-    var contact=whatsapp?'https://wa.me/'+whatsapp+'?text='+encodeURIComponent('Hola, soy huésped de '+hotel.name+'. Quisiera consultar por un servicio.'):'#services';
+    var tours=d.tours||[],sections=d.sections||[],promos=d.promotions||[];
+    var section=function(slug){for(var i=0;i<sections.length;i++)if(sections[i].slug===slug)return sections[i];return null;};
+    var services=section('services'),santiago=section('santiago');
+    var html=header(hotel,view);
 
-    var cards=[
-      {icon:'bed',title:'Habitaciones',desc:'Conoce nuestros espacios',href:'#hotel'},
-      {icon:'cup',title:'Desayuno',desc:h(hotel.breakfast_hours||'07:30 AM – 10:00 AM'),href:'#hotel'},
-      {icon:'pin',title:'Tours y experiencias',desc:'Descubre Santiago',href:'#tours'},
-      {icon:'bell',title:'Servicios del hotel',desc:'Todo lo que necesitas',href:'#services'},
-      {icon:'help',title:'Preguntas frecuentes',desc:'Resuelve tus dudas',href:'#hotel'},
-      {icon:'phone',title:'Contacto',desc:'Estamos para ayudarte',href:contact}
-    ];
-    var cardHtml='';
-    for(var i=0;i<cards.length;i++){
-      var c=cards[i];
-      cardHtml+='<a class="quick-card" href="'+h(c.href)+'"><span class="quick-icon">'+icon(c.icon)+'</span><span class="quick-copy"><strong>'+c.title+'</strong><small>'+c.desc+'</small></span><span class="arrow-circle">↗</span></a>';
+    if(view==='home'){
+      html+='<main class="app-home"><section class="app-welcome"><div class="app-welcome-photo" style="background-image:url(\'/static/images/fondo1.jpg\')"></div><div class="app-welcome-shade"></div><div class="app-welcome-content"><span class="eyebrow">BIENVENIDO/A</span><h1>¿Qué necesitas<br><em>durante tu estadía?</em></h1><p>Todo Ocaranza, en seis accesos rápidos.</p></div></section><section class="module-section"><div class="module-grid">'+
+      card('hotel','hotel','Información del hotel','Habitaciones, horarios y datos útiles')+
+      card('breakfast','cup','Desayuno','Horarios y detalles del servicio')+
+      card('tours','pin','Tours y experiencias','Descubre Santiago y sus alrededores')+
+      card('services','bell','Servicios y pedidos','Solicita ayuda o consulta productos')+
+      card('contact','help','Contacto','Habla con recepción')+
+      card('santiago','city','Santiago','Qué hacer y qué visitar')+
+      '</div></section></main>';
+    }else if(view==='hotel'){
+      html+='<main class="app-module"><span class="eyebrow dark">HOTEL</span><h1>Información útil</h1><p class="module-lead">'+h(hotel.welcome_text||'Todo lo que necesitas saber para disfrutar tu estadía.')+'</p><div class="detail-grid">'+
+      '<div class="detail-card"><span>Desayuno</span><strong>'+h(hotel.breakfast_hours||'07:30 - 10:00')+'</strong></div>'+
+      '<div class="detail-card"><span>Check-in</span><strong>'+h(hotel.checkin||'15:00')+'</strong></div>'+
+      '<div class="detail-card"><span>Check-out</span><strong>'+h(hotel.checkout||'12:00')+'</strong></div>'+
+      '<div class="detail-card"><span>Dirección</span><strong>'+h(hotel.address||'Santiago, Chile')+'</strong></div>'+
+      '</div></main>';
+    }else if(view==='breakfast'){
+      html+='<main class="app-module"><span class="eyebrow dark">SERVICIO</span><h1>Desayuno</h1><div class="feature-module"><span class="module-icon">'+icon('cup')+'</span><h2>'+h(hotel.breakfast_hours||'07:30 - 10:00')+'</h2><p>'+h(hotel.breakfast_description||'Disfruta nuestro servicio de desayuno.')+'</p></div><div class="module-note">Consulta en recepción por cualquier requerimiento especial.</div></main>';
+    }else if(view==='tours'){
+      var tourHtml='';
+      for(var i=0;i<tours.length;i++){var t=tours[i];tourHtml+='<article class="compact-tour">'+(t.image_url?'<img src="'+h(t.image_url)+'" alt="">':'')+'<div><span class="eyebrow dark">EXPERIENCIA</span><h2>'+h(t.name)+'</h2><p>'+h(t.short_description||t.description||'Descubre esta experiencia.')+'</p><strong>'+h(t.guest_price||t.normal_price||'Consultar')+'</strong></div></article>';}
+      html+='<main class="app-module"><span class="eyebrow dark">EXPERIENCIAS</span><h1>Tours y experiencias</h1><div class="compact-tour-grid">'+tourHtml+'</div></main>';
+    }else if(view==='services'){
+      html+='<main class="app-module"><span class="eyebrow dark">ATENCIÓN</span><h1>Servicios y pedidos</h1><p class="module-lead">Estamos para ayudarte durante toda tu estadía.</p><div class="service-actions">'+
+      '<button class="service-action" data-view="contact"><span>'+icon('bell')+'</span><strong>Solicitar ayuda</strong><small>Contactar recepción</small></button>'+
+      '<div class="service-action"><span>'+icon('hotel')+'</span><strong>Productos</strong><small>Próximamente podrás consultar productos y hacer pedidos desde aquí.</small></div>'+
+      '</div>'+(services?'<div class="module-note">'+h(services.content)+'</div>':'')+'</main>';
+    }else if(view==='santiago'){
+      html+='<main class="app-module"><span class="eyebrow dark">ALREDEDORES</span><h1>Santiago</h1><div class="text-panel app-text">'+h(santiago?santiago.content:'Descubre Santiago desde Hotel Ocaranza.')+'</div><button class="wide-action" data-view="tours">Ver experiencias ↗</button></main>';
+    }else{
+      var whatsapp=(hotel.whatsapp||'').replace(/[^0-9]/g,'');
+      var wa=whatsapp?'https://wa.me/'+whatsapp+'?text='+encodeURIComponent('Hola, soy huésped de '+hotel.name+'. Quisiera consultar por un servicio.'):'#';
+      html+='<main class="app-module contact-module"><span class="eyebrow dark">RECEPCIÓN</span><h1>¿Necesitas ayuda?</h1><p class="module-lead">Estamos disponibles para ayudarte durante tu estadía.</p><a class="contact-main" href="'+h(wa)+'">Contactar por WhatsApp ↗</a><div class="contact-data"><div><span>Teléfono</span><strong>'+h(hotel.phone||'Consultar en recepción')+'</strong></div><div><span>Dirección</span><strong>'+h(hotel.address||'Santiago, Chile')+'</strong></div></div></main>';
     }
-
-    var tourHtml='';
-    for(i=0;i<tours.length&&i<4;i++){
-      var t=tours[i];
-      tourHtml+='<article class="tour-card"><div class="tour-media">'+(t.image_url?'<img src="'+h(t.image_url)+'" alt="">':'')+'</div><div class="tour-copy"><span class="eyebrow">Experiencia</span><h3>'+h(t.name)+'</h3><p>'+h(t.short_description||t.description||'Descubre esta experiencia.')+'</p><div class="tour-bottom"><strong>'+h(t.guest_price||t.normal_price||'Consultar')+'</strong><a href="/guest-tour.html?slug='+encodeURIComponent(t.slug)+'&source='+encodeURIComponent(source)+'">Ver experiencia <span>↗</span></a></div></div></article>';
-    }
-
-    var nav='<a href="#inicio">Inicio</a><a href="#hotel">Habitaciones</a><a href="#tours">Tours</a><a href="#services">Servicios</a><a href="#more">Más</a>';
-
-    app.innerHTML=
-      '<header class="site-header"><div class="site-header-inner"><a class="brand" href="#inicio" aria-label="Ocaranza"><span class="oc-logo oc-logo-header"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span></a><nav>'+nav+'</nav><div class="header-actions"><button class="lang-pill">🇨🇱 ES⌄</button><button class="menu-toggle" aria-label="Menú">☰</button></div></div></header>'+
-      '<main id="inicio">'+
-      '<section class="hero-home">'+
-        '<div class="hero-image" style="background-image:url(\''+h(hero).replace(/'/g,"%27")+'\')"></div>'+
-        '<div class="hero-shade"></div>'+
-        '<div class="hero-content">'+
-          '<span class="hero-kicker">BIENVENIDO/A</span>'+
-          '<h1>Disfruta tu estadía<br><em>en Hotel Ocaranza</em></h1>'+
-          '<p>Encuentra toda la información que necesitas para una experiencia única en Santiago.</p>'+
-          '<div class="hero-actions"><a class="hero-primary" href="#tours">Descubrir Santiago</a><a class="hero-secondary" href="#hotel">Información del hotel</a></div>'+
-        '</div>'+
-      '</section>'+
-      '<section class="quick-section"><div class="quick-grid">'+cardHtml+'</div></section>'+
-      '<section class="intro-section"><div><span class="eyebrow dark">TU ESTADÍA</span><h2>Todo lo que necesitas,<br><em>en un solo lugar.</em></h2></div><p>Información del hotel, desayuno, servicios y experiencias pensadas para que disfrutes Santiago sin complicaciones.</p></section>'+
-      '<section id="tours" class="content-section"><div class="section-heading-row"><div><span class="eyebrow dark">EXPERIENCIAS</span><h2>Descubre Santiago</h2></div><a class="see-all" href="#tours">Ver todas ↗</a></div><div class="tour-grid-modern">'+tourHtml+'</div></section>'+
-      '<section class="feature-banner"><div class="feature-image" style="background-image:url(\''+h(tourImg).replace(/'/g,"%27")+'\')"></div><div class="feature-overlay"></div><div class="feature-copy"><span class="eyebrow">HOTEL OCARANZA</span><h2>Tu punto de encuentro<br>en <em>Santiago</em></h2><p>'+h(hotel.welcome_text||'Vive Santiago desde Ocaranza.')+'</p><a href="#hotel">Conoce más ↗</a></div></section>'+
-      '<section id="hotel" class="info-section"><div class="info-head"><span class="eyebrow dark">INFORMACIÓN ÚTIL</span><h2>Todo listo para tu estadía</h2></div><div class="info-grid-modern"><div><span class="info-icon">☕</span><small>Desayuno</small><strong>'+h(hotel.breakfast_hours||'07:30 AM – 10:00 AM')+'</strong></div><div><span class="info-icon">↔</span><small>Check-in</small><strong>'+h(hotel.checkin||'15:00')+'</strong></div><div><span class="info-icon">↲</span><small>Check-out</small><strong>'+h(hotel.checkout||'12:00')+'</strong></div><div><span class="info-icon">⌖</span><small>Dirección</small><strong>'+h(hotel.address||'Santiago, Chile')+'</strong></div></div></section>'+
-      '<section id="services" class="services-section"><div class="service-card"><div><span class="eyebrow dark">AYUDA</span><h2>¿Necesitas algo?</h2><p>Estamos para ayudarte durante toda tu estadía.</p></div><a class="dark-cta" href="'+h(contact)+'">Contactar recepción ↗</a></div></section>'+
-      '</main>'+
-      '<footer id="more" class="footer-modern"><div><span class="oc-logo oc-logo-footer"><span class="oc-logo-h">H</span><span class="oc-logo-word">OCARANZA</span></span><p>'+h(hotel.subtitle||'Tu punto de encuentro en Santiago')+'</p></div><div><strong>Hotel</strong><a href="#hotel">Información útil</a><a href="#tours">Tours</a><a href="#services">Servicios</a></div><div><strong>Contacto</strong><span>'+h(hotel.phone||'')+'</span><span>'+h(hotel.address||'')+'</span></div></footer>';
-    initInteractions();
+    html+=nav(view);
+    app.innerHTML=html;
+    bind();
   }
-  function initInteractions(){
-    var menu=document.querySelector('.menu-toggle'),nav=document.querySelector('.site-header nav');
-    if(menu&&nav){menu.addEventListener('click',function(){var open=nav.classList.toggle('mobile-open');menu.classList.toggle('is-open');menu.setAttribute('aria-expanded',open?'true':'false');});}
-    var items=document.querySelectorAll('a,button,.quick-card,.tour-card');
-    for(var i=0;i<items.length;i++){items[i].addEventListener('pointerdown',function(){this.classList.add('is-pressed');});items[i].addEventListener('pointerup',function(){var el=this;setTimeout(function(){el.classList.remove('is-pressed');},140);});items[i].addEventListener('pointercancel',function(){this.classList.remove('is-pressed');});}
-    if('IntersectionObserver' in window){var obs=new IntersectionObserver(function(es){for(var j=0;j<es.length;j++){if(es[j].isIntersecting){es[j].target.classList.add('is-visible');obs.unobserve(es[j].target);}}},{threshold:.12});var reveal=document.querySelectorAll('.intro-section,.content-section,.feature-banner,.info-section,.services-section,.tour-card');for(var k=0;k<reveal.length;k++){reveal[k].classList.add('reveal-on-scroll');obs.observe(reveal[k]);}}
+  function bind(){
+    var els=document.querySelectorAll('[data-view]');
+    for(var i=0;i<els.length;i++)els[i].addEventListener('click',function(){go(this.getAttribute('data-view'));});
   }
 }());
 </script>
